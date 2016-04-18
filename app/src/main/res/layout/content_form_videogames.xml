@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+ -   CONTENT FOR VIDEOGAMES FORM
+ -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
+
+    <!-- Top part -->
+    <include layout="@layout/content_form_media_items_top_part"/>
+
+    <!-- Publisher -->
+    <EditText
+        android:id="@+id/form_publisher_input"
+        style="@style/FormTextInputOneLine"
+        android:hint="@string/form_title_publisher"
+        android:drawableStart="@drawable/ic_form_publisher"/>
+
+    <!-- Platforms -->
+    <EditText
+        android:id="@+id/form_platforms_input"
+        style="@style/FormTextInputOneLine"
+        android:hint="@string/form_title_platforms"
+        android:drawableStart="@drawable/ic_form_platform"/>
+
+    <!-- Bottom part -->
+    <include layout="@layout/content_form_media_items_bottom_part"/>
+
+</LinearLayout>

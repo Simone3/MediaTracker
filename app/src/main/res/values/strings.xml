@@ -1,0 +1,262 @@
+<resources>
+
+    <!-- APP AND ACTIVITY NAMES -->
+    <string name="app_name">Media Tracker</string>
+    <string name="title_activity_home">@string/app_name</string>
+    <string name="title_activity_media_items_list">List</string>
+    <string name="title_activity_tracked_media_items_list">Tracked %1$s</string>
+    <string name="title_activity_completed_media_items_list">Completed %1$s</string>
+    <string name="title_activity_suggestions">%1$s Suggestions</string>
+    <string name="title_activity_form">Form</string>
+    <string name="title_activity_add_form">Add New %1$s</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- NAVIGATION DRAWER -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_home">Home</string>
+    <string name="navigation_drawer_icon">Drawer element icon</string>
+
+    <!-- ACTIONS -->
+    <string name="action_settings">Settings</string>
+    <string name="action_credits">Credits</string>
+    <string name="action_save">Save</string>
+    <string name="action_search">Search</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="set_as_completed_notice">Set as completed</string>
+    <string name="set_as_done_movie">I\'ve watched this</string>
+    <string name="set_as_done_book">I\'ve read this</string>
+    <string name="set_as_done_videogame">I\'ve played this</string>
+    <string name="set_as_done_tv_show">I\'ve completed this</string>
+    <string name="set_as_doing_movie">I\'m watching this</string>
+    <string name="set_as_doing_videogame">I\'m playing this</string>
+    <string name="set_as_doing_book">I\'m reading this</string>
+    <string name="set_as_doing_tv_show">I\'m following this</string>
+    <string name="redo_movie">I could rewatch this</string>
+    <string name="redo_tv_show">I could rewatch this</string>
+    <string name="redo_videogame">I could replay this</string>
+    <string name="redo_book">I could reread this</string>
+    <string name="undo">Undo</string>
+    <string name="set_as_owned">I now own this</string>
+    <string name="change_completion_date">Change completion date</string>
+
+    <!-- ACTIONS CONFIRM MESSAGES -->
+    <string name="delete_category_confirm_message">Are you sure? This will also delete all tracked/completed media items in this category!</string>
+    <string name="delete_media_item_confirm_message">Are you sure? This action cannot be undone!</string>
+
+    <!-- CATEGORIES AND SUBCATEGORIES -->
+    <string name="category">Category</string>
+    <string name="subcategory_completed">Completed</string>
+    <string name="subcategory_suggestions">Suggestions</string>
+
+    <!-- CATEGORIES VALIDATION -->
+    <string name="validation_category_null">This category is not valid!</string>
+    <string name="validation_category_empty_name">You must specify a name for the category!</string>
+    <string name="validation_category_same_name">A category with this name already exists!</string>
+    <string name="validation_category_no_media_type">The category must have a media type!</string>
+
+    <!-- MEDIA ITEMS -->
+    <string name="book">Book</string>
+    <string name="movie">Movie</string>
+    <string name="tv_show">TV Show</string>
+    <string name="videogame">Videogame</string>
+    <string name="books">Books</string>
+    <string name="movies">Movies</string>
+    <string name="tv_shows">TV Shows</string>
+    <string name="videogames">Videogames</string>
+
+    <!-- MEDIA ITEM STATUS -->
+    <string name="upcoming">Upcoming</string>
+    <string name="doing_now_movie">Watching</string>
+    <string name="doing_now_tv_show">Following</string>
+    <string name="doing_now_videogame">Playing</string>
+    <string name="doing_now_book">Reading</string>
+
+    <!-- MEDIA ITEM IMPORTANCE LEVELS -->
+    <string name="importance_level_none">Unimportant</string>
+    <string name="importance_level_low">Fairly Important</string>
+    <string name="importance_level_medium">Important</string>
+    <string name="importance_level_high">Very Important</string>
+
+    <!-- MEDIA ITEM VALIDATION -->
+    <string name="validation_media_item_null">This media item is not valid!</string>
+    <string name="validation_media_item_no_category">The media item must have a category!</string>
+    <string name="validation_media_item_empty_title">You must specify a title!</string>
+    <string name="validation_media_item_same_title_completed">You have already completed a media item with the same name in the past</string>
+    <string name="validation_media_item_same_title_tracking">You are already tracking a media item with the same name</string>
+
+    <!-- HOME -->
+    <string name="home_empty">No categories</string>
+
+    <!-- FORMS -->
+    <string name="form_exit_error">Are you sure you want to discard your changes?</string>
+    <string name="form_exit_error_discard">Discard</string>
+    <string name="form_exit_error_keep">Keep editing</string>
+
+    <!-- CATEGORIES FORM -->
+    <string name="form_title_category_name">Name</string>
+    <string name="form_title_color">Color</string>
+    <string name="form_color_picker_title">Choose Color</string>
+    <string name="form_media_type_select_title">Choose Media</string>
+    <string name="form_error_cannot_edit_media_type">You cannot edit the media type if there are media items in the category!</string>
+
+    <!-- MEDIA ITEMS FORMS -->
+    <string name="form_title_media_item_title">%1$s title</string>
+    <string name="form_title_genres">Genres</string>
+    <string name="form_title_description">Summary</string>
+    <string name="form_title_user_comment">Your notes</string>
+    <string name="form_title_owned">I own it</string>
+    <string name="form_title_release_date">Release date</string>
+    <string name="form_importance_level_select_title">Relevance</string>
+    <string name="form_error_external_service">An error occurred during information retrieval</string>
+    <string name="fetch_media_item_data_wait_title">Loading</string>
+    <string name="fetch_media_item_data_wait_message">Setting values…</string>
+    <string name="search_result_media_item_name_with_year">%1$s (%2$s)</string>
+    <string name="google_search">Search with Google</string>
+    <string name="wikipedia_search">Search on Wikipedia</string>
+    <string name="form_image">Representative image</string>
+    <string name="form_reload">Reload information from the Internet</string>
+    <string name="form_reload_alert_content">This will reload the media item information from the internet, overwriting any change made to the linked fields. Are you sure?</string>
+
+    <!-- MOVIES FORM -->
+    <string name="form_title_director">Director</string>
+    <string name="form_title_duration">Runtime (minutes)</string>
+
+    <!-- VIDEOGAMES FORM -->
+    <string name="form_title_developer">Developers</string>
+    <string name="form_title_publisher">Publishers</string>
+    <string name="form_title_platforms">Platforms</string>
+    <string name="form_title_average_length">Average length (hours)</string>
+
+    <!-- BOOKS FORM  -->
+    <string name="form_title_pages_number">Number of pages</string>
+    <string name="form_title_author">Author</string>
+
+    <!-- TV SHOWS FORM -->
+    <string name="form_title_created_by">Created By</string>
+    <string name="form_title_episode_duration">Episode runtime (minutes)</string>
+    <string name="form_title_next_episode">Next episode air date</string>
+    <string name="form_title_episodes_number">Total number of episodes</string>
+    <string name="form_title_seasons_number">Number of seasons</string>
+    <string name="form_title_in_production">In Production</string>
+    <string name="form_episodes">episodes</string>
+    <string name="form_seasons">seasons</string>
+
+    <!-- "MEASURE UNITS" -->
+    <string name="duration_minutes">minutes</string>
+    <string name="duration_minutes_short">\'</string>
+    <string name="duration_minutes_per_episode">minutes per episode</string>
+    <string name="duration_minutes_per_episode_short">\'</string>
+    <string name="duration_pages">pages</string>
+    <string name="duration_pages_short">pp.</string>
+    <string name="duration_hours">hours</string>
+    <string name="duration_hours_short">h</string>
+    <string name="duration_value_and_measure_unit_short">%1$d%2$s</string> <!-- %1$d=value,%2$s=measure unit -->
+
+    <!-- MEDIA ITEMS LIST -->
+    <string name="options_button_description">Media item options</string>
+    <string name="list_media_item_by_and_duration">%1$s &#8226; %2$s</string>
+    <string name="completed_on_single">Completed on %1$s</string>
+    <string name="completed_on_multiple">Completed %1$d times, last on %2$s</string>
+    <string name="will_be_available_on">Will be available on %1$s</string>
+    <string name="will_be_available_on_unknown">Upcoming</string>
+    <string name="reorder">Reorder</string>
+    <string name="list_empty">No media items</string>
+
+    <!-- NOTIFICATIONS -->
+    <plurals name="released_today">
+        <item quantity="one">was released today</item>
+        <item quantity="other">were released today</item>
+    </plurals>
+    <string name="new_releases_notification_content">%1$s %2$s</string>
+
+    <!-- SETTINGS -->
+    <string name="settings_group_notifications">Notifications</string>
+    <string name="settings_receive_notifications">New Releases</string>
+    <string name="settings_receive_notifications_summary">Get notified when media items you are following become available</string>
+    <string name="settings_notifications_time">Notifications time</string>
+    <string name="settings_notifications_ringtone">Ringtone</string>
+    <string name="settings_notifications_vibrate">Vibrate</string>
+    <string name="settings_group_data">Data</string>
+
+    <!-- DB IMPORT/EXPORT -->
+    <string name="settings_export_database">Export database</string>
+    <string name="settings_import_database">Import database</string>
+    <string name="import_database_notice">To import the database open a JSON file with the application (e.g. from a file manager or an email attachment)</string>
+    <string name="import_database_confirm_message">This will completely erase the current database and replace it with the data available in the file. Confirm?</string>
+    <string name="import_database_json_error">Import error: the file contains unrecognized data</string>
+    <string name="import_database_file_error">Import error: file not found or inaccessible</string>
+    <string name="import_database_validation_error_category">Invalid category at position %1$d: %2$s</string>
+    <string name="import_database_validation_error_media_item">Invalid media item at category %1$d and position %2$d: %3$s</string>
+    <string name="import_database_success">Database successfully imported!</string>
+
+    <!-- MEDIA ITEM SUGGESTIONS -->
+    <string name="suggestions_title">Suggest me…</string>
+    <string name="suggestions_result_title">What about…</string>
+    <string name="suggestions_genre_label">Genre contains…</string>
+    <string name="suggestions_status_dialog_title">What?</string>
+    <string name="suggestions_owned_dialog_title">Owned?</string>
+    <string name="suggestions_completed_dialog_title">Completion?</string>
+    <string name="suggestions_owned_option_owned">I own it</string>
+    <string name="suggestions_owned_option_not_owned">I don\'t own it</string>
+    <string name="suggestions_owned_option_any">I own it or not</string>
+    <string name="suggestions_duration_option_very_long">Very long, %1$s</string>
+    <string name="suggestions_duration_option_long">Long, %1$s</string>
+    <string name="suggestions_duration_option_medium">Medium, %1$s</string>
+    <string name="suggestions_duration_option_short">Short, %1$s</string>
+    <string name="suggestions_duration_option_any">Any duration</string>
+    <plurals name="suggestions_completion_option_x_year">
+        <item quantity="one">Completed at least 1 year ago</item>
+        <item quantity="other">Completed at least %d years ago</item>
+    </plurals>
+    <string name="suggestions_completion_option_any">Completed at any time</string>
+    <string name="suggestions_result_nothing">No result</string>
+    <string name="reload">Reload</string>
+
+    <!-- MOVIE SUGGESTIONS -->
+    <string name="suggestions_movie_duration_dialog_title">Runtime?</string>
+    <string name="suggestions_movie_completion_label">I\'ve watched</string>
+    <string name="suggestions_movie_status_option_new">A movie I\'m tracking</string>
+    <string name="suggestions_movie_status_option_completed">A movie I\'ve already seen</string>
+
+    <!-- TV SHOW SUGGESTIONS -->
+    <string name="suggestions_tv_show_duration_dialog_title">Episode runtime?</string>
+    <string name="suggestions_tv_show_completion_label">I\'ve watched</string>
+    <string name="suggestions_tv_show_status_option_new">A TV show I\'m tracking</string>
+    <string name="suggestions_tv_show_status_option_completed">A TV show I\'ve already seen</string>
+
+    <!-- BOOK SUGGESTIONS -->
+    <string name="suggestions_book_duration_dialog_title">Length?</string>
+    <string name="suggestions_book_completion_label">I\'ve read</string>
+    <string name="suggestions_book_status_option_new">A book I\'m tracking</string>
+    <string name="suggestions_book_status_option_completed">A book I\'ve already read</string>
+
+    <!-- VIDEOGAME SUGGESTIONS -->
+    <string name="suggestions_videogame_duration_dialog_title">Length?</string>
+    <string name="suggestions_videogame_completion_label">I\'ve played</string>
+    <string name="suggestions_videogame_status_option_new">A videogame I\'m tracking</string>
+    <string name="suggestions_videogame_status_option_completed">A videogame I\'ve already played</string>
+
+    <!-- SUGGESTIONS DURATION INTERVALS -->
+    <string name="duration_minutes_less_then">&lt;%1$d minutes</string>
+    <string name="duration_minutes_between">%1$d-%2$d minutes</string>
+    <string name="duration_minutes_more_then">&gt;%1$d minutes</string>
+    <string name="duration_pages_less_then">&lt;%1$d pages</string>
+    <string name="duration_pages_between">%1$d-%2$d pages</string>
+    <string name="duration_pages_more_then">&gt;%1$d pages</string>
+    <string name="duration_hours_less_then">&lt;%1$d hours</string>
+    <string name="duration_hours_between">%1$d-%2$d hours</string>
+    <string name="duration_hours_more_then">&gt;%1$d hours</string>
+
+    <!-- CREDITS -->
+    <string name="credits">Credits</string>
+    <string name="credits_movies_and_tv_shows">Movies and TV Shows data provided by <b>https://www.themoviedb.org</b> (this product uses the TMDb API but is not endorsed or certified by TMDb)</string>
+    <string name="credits_videogames">Videogames data provided by <b>http://www.giantbomb.com</b></string>
+    <string name="credits_books">Books data provided by <b>https://books.google.com/</b></string>
+
+    <!-- PERMISSIONS -->
+    <string name="permission_request_external_storage">Needed permission to access external storage</string>
+    <string name="permission_request_agree">Agree</string>
+
+</resources>

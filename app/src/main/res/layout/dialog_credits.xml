@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+ -   CONTENT FOR CREDITS DIALOG
+ -->
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollViewTipsLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:text="@string/credits_movies_and_tv_shows"
+            android:layout_marginBottom="@dimen/credits_text_margin"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:text="@string/credits_videogames"
+            android:layout_marginBottom="@dimen/credits_text_margin"
+            android:layout_marginTop="@dimen/credits_text_margin"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:text="@string/credits_books"
+            android:layout_marginTop="@dimen/credits_text_margin"/>
+
+    </LinearLayout>
+
+</ScrollView>

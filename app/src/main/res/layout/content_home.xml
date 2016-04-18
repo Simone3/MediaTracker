@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+ -   CONTENT FOR HOME ACTIVITY
+ -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- CATEGORIES GRID -->
+    <GridView
+        android:id="@+id/categories_grid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnWidth="@dimen/categories_grid_column_width"
+        android:numColumns="@integer/home_grid_columns"
+        android:verticalSpacing="@dimen/categories_grid_vertical_spacing"
+        android:horizontalSpacing="@dimen/categories_grid_horizontal_spacing"
+        android:padding="@dimen/categories_grid_padding"
+        android:stretchMode="columnWidth"
+        android:gravity="center"
+        tools:context="it.polimi.dima.mediatracker.activities.HomeActivity"
+        tools:showIn="@layout/activity_home"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    <!-- TEXT IF LIST IS EMPTY -->
+    <TextView
+    android:id="@+id/home_empty_view"
+    style="@style/ListEmptyNotice"
+    android:text="@string/home_empty"/>
+
+</LinearLayout>

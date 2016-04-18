@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+-   SINGLE ITEM FOR THE HOME CATEGORY GRID
+-->
+
+<it.polimi.dima.mediatracker.layout.SquareLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/category_item"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <!-- ICON -->
+    <ImageView
+        android:id="@+id/category_item_icon"
+        android:layout_width="@dimen/categories_grid_element_icon_size"
+        android:layout_height="@dimen/categories_grid_element_icon_size"
+        android:contentDescription="@string/category"
+        android:tint="@android:color/white"/>
+
+    <!-- NAME -->
+    <TextView
+        android:id="@+id/category_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/categories_grid_element_text_size"/>
+
+</it.polimi.dima.mediatracker.layout.SquareLinearLayout>

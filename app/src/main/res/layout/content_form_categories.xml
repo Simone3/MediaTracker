@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+ -   CONTENT FOR CATEGORIES FORM
+ -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.OnlyCategoryFormActivity">
+
+    <!-- Name -->
+    <EditText
+        android:id="@+id/form_title_input"
+        style="@style/FormTextInputOneLine"
+        android:hint="@string/form_title_category_name"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Media Type -->
+        <EditText
+            android:id="@+id/form_media_type_button"
+            style="@style/FormDialogButton"
+            android:hint=""
+            android:layout_width="0dp"
+            android:layout_weight="2"/>
+
+        <!-- Color -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:gravity="center">
+            <ImageButton
+                android:id="@+id/form_color_input"
+                style="@style/ColorPickerItem"
+                android:layout_width="@dimen/color_picker_button_size"
+                android:layout_height="@dimen/color_picker_button_size"
+                android:contentDescription="@string/form_title_color"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

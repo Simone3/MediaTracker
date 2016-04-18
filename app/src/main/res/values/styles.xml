@@ -1,0 +1,117 @@
+<resources>
+
+    <!-- Base application theme -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!-- APPBAR -->
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="AppBarTheme">
+        <item name="android:textColorPrimary">@color/appbar_text_color</item>
+        <item name="android:textColorSecondary">@color/appbar_icon_color</item>
+    </style>
+
+    <!-- FORMS -->
+    <style name="AbstractInput">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawablePadding">@dimen/form_input_padding</item>
+        <item name="android:paddingStart">@dimen/form_input_padding</item>
+        <item name="android:paddingEnd">@dimen/form_input_padding</item>
+        <item name="android:paddingBottom">@dimen/form_input_padding</item>
+        <item name="android:textSize">@dimen/form_input_text_size</item>
+        <item name="android:saveEnabled">false</item> <!-- disable automatic save/restore instance -->
+    </style>
+    <style name="FormTextInputOneLine" parent="AbstractInput">
+        <item name="android:inputType">textCapSentences</item>
+    </style>
+    <style name="FormTextInputMultiLine" parent="AbstractInput">
+        <item name="android:inputType">textCapSentences|textMultiLine</item>
+    </style>
+    <style name="FormNumberInput" parent="AbstractInput">
+        <item name="android:inputType">number</item>
+        <item name="measure_unit_text_color">@android:color/darker_gray</item>
+    </style>
+    <style name="FormNumberInputLabel">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="FormDialogButton" parent="AbstractInput">
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">false</item>
+        <item name="android:clickable">true</item>
+        <item name="android:cursorVisible">false</item>
+        <item name="android:inputType">textCapWords</item>
+    </style>
+    <style name="FormSearchIcon">
+        <item name="android:layout_width">@dimen/link_icon_size</item>
+        <item name="android:layout_height">@dimen/link_icon_size</item>
+        <item name="android:layout_marginTop">@dimen/link_icon_padding</item>
+        <item name="android:layout_marginBottom">@dimen/link_icon_padding</item>
+    </style>
+    <style name="FormSwitch" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawablePadding">@dimen/form_input_padding</item>
+        <item name="android:paddingStart">@dimen/form_input_padding</item>
+        <item name="android:paddingEnd">@dimen/form_input_padding</item>
+        <item name="android:paddingBottom">@dimen/form_input_padding</item>
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">false</item>
+        <item name="android:textSize">@dimen/form_input_text_size</item>
+    </style>
+    <style name="FormTextInputLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!-- COLOR PICKER -->
+    <style name="ColorPickerItem">
+        <item name="android:background">@drawable/color_picker_circle</item>
+    </style>
+
+    <!-- SUGGESTIONS -->
+    <style name="SuggestionsTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/suggestions_title_text_size</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <!-- LIST -->
+    <style name="ListEmptyNotice">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/list_empty_notice_text_size</item>
+        <item name="android:layout_marginTop">@dimen/list_empty_notice_margin</item>
+        <item name="android:textColor">@color/list_options_color</item>
+    </style>
+
+    <!-- MULTI-PANE LAYOUT (tablets) -->
+    <style name="multi_pane_divider">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">1px</item>
+        <item name="android:background">@android:color/black</item>
+        <item name="android:minWidth">1px</item>
+    </style>
+
+
+
+
+
+
+
+
+
+
+
+</resources>

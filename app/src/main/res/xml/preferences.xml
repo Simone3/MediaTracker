@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="@string/key_notifications_category"
+        android:title="@string/settings_group_notifications">
+
+        <SwitchPreference
+            android:key="@string/key_receive_new_releases_notifications"
+            android:title="@string/settings_receive_notifications"
+            android:summary="@string/settings_receive_notifications_summary"
+            android:defaultValue="true"/>
+
+        <Preference
+            android:key="@string/key_new_releases_notification_time_button"
+            android:title="@string/settings_notifications_time"
+            android:dependency="@string/key_receive_new_releases_notifications"/>
+
+        <RingtonePreference
+            android:key="@string/key_notifications_sound"
+            android:title="@string/settings_notifications_ringtone"
+            android:ringtoneType="notification"
+            android:showDefault="true"
+            android:showSilent="true"
+            android:dependency="@string/key_receive_new_releases_notifications"/>
+        <!-- android:defaultValue="content://settings/system/notification_sound" -->
+
+        <SwitchPreference
+            android:key="@string/key_notifications_vibrate"
+            android:title="@string/settings_notifications_vibrate"
+            android:defaultValue="false"
+            android:dependency="@string/key_receive_new_releases_notifications"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="@string/key_data_category"
+        android:title="@string/settings_group_data">
+
+        <Preference
+            android:key="@string/key_export_db_button"
+            android:title="@string/settings_export_database"/>
+
+        <Preference
+            android:key="@string/key_import_db_button"
+            android:title="@string/settings_import_database"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

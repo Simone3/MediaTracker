@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+ -   LOWER PART OF A GENERIC MEDIA ITEM FORM
+ -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- Image and extra options -->
+    <LinearLayout
+        android:id="@+id/form_image_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/form_image_container_padding">
+
+        <it.polimi.dima.mediatracker.layout.FitYCropXImageView
+            android:id="@+id/form_image"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/form_image_height"
+            android:layout_weight="9"
+            android:scaleType="centerCrop"
+            android:src="@drawable/form_image_default"
+            android:contentDescription="@string/form_image"
+            android:layout_marginRight="@dimen/form_image_container_padding"/>
+
+        <LinearLayout
+            android:id="@+id/links_container"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/form_image_height"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/google_link"
+                style="@style/FormSearchIcon"
+                android:src="@drawable/google"
+                android:contentDescription="@string/google_search"/>
+
+            <ImageView
+                android:id="@+id/wikipedia_link"
+                style="@style/FormSearchIcon"
+                android:src="@drawable/wikipedia"
+                android:contentDescription="@string/wikipedia_search"/>
+
+            <ImageView
+                android:id="@+id/form_reload_button"
+                style="@style/FormSearchIcon"
+                android:src="@drawable/ic_download"
+                android:contentDescription="@string/form_reload"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Title -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <it.polimi.dima.mediatracker.layout.AutoCompleteTextViewWithDelay
+            android:id="@+id/form_title_input"
+            style="@style/FormTextInputMultiLine"
+            android:imeOptions="flagNoExtractUi|actionNext"
+            android:gravity="center"
+            android:textSize="@dimen/form_title_input_text_size"/>
+        <ProgressBar
+            android:id="@+id/auto_complete_loading_spinner"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="@dimen/autocomplete_loading_spinner_size"
+            android:layout_height="@dimen/autocomplete_loading_spinner_size"
+            android:layout_gravity="center_vertical|end"
+            android:layout_alignTop="@id/form_title_input"
+            android:layout_alignBottom="@id/form_title_input"
+            android:layout_alignEnd="@id/form_title_input"
+            android:visibility="gone"/>
+    </RelativeLayout>
+
+    <!-- Author -->
+    <EditText
+        android:id="@+id/form_creator_input"
+        style="@style/FormTextInputOneLine"
+        android:hint=""
+        android:drawableStart="@drawable/ic_form_creator"/>
+
+    <!-- Genres -->
+    <EditText
+        android:id="@+id/form_genres_input"
+        style="@style/FormTextInputOneLine"
+        android:hint="@string/form_title_genres"
+        android:drawableStart="@drawable/ic_form_genres"/>
+
+    <!-- Release date -->
+    <EditText
+        android:id="@+id/form_release_date_button"
+        style="@style/FormDialogButton"
+        android:hint="@string/form_title_release_date"
+        android:drawableStart="@drawable/ic_form_release_date"
+        android:inputType="date"/>
+
+    <!-- Duration -->
+    <it.polimi.dima.mediatracker.layout.EditTextWithMeasureUnit
+        android:id="@+id/form_duration_input"
+        style="@style/FormNumberInput"
+        android:hint=""
+        android:drawableStart="@drawable/ic_form_duration"/>
+
+    <!-- Description -->
+    <EditText
+        android:id="@+id/form_description_input"
+        style="@style/FormTextInputMultiLine"
+        android:hint="@string/form_title_description"
+        android:drawableStart="@drawable/ic_form_description"/>
+
+</LinearLayout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- SETTINGS KEYS -->
+    <string name="key_notifications_category" translatable="false">key_notifications_category</string>
+    <string name="key_first_run" translatable="false">key_first_run</string>
+    <string name="key_new_releases_notification_time_button" translatable="false">key_new_releases_notification_time_button</string>
+    <string name="key_new_releases_notification_hour" translatable="false">key_new_releases_notification_hour</string>
+    <string name="key_new_releases_notification_minutes" translatable="false">key_new_releases_notification_minutes</string>
+    <string name="key_receive_new_releases_notifications" translatable="false">key_receive_new_releases_notifications</string>
+    <string name="key_notifications_sound" translatable="false">key_notifications_sound</string>
+    <string name="key_notifications_vibrate" translatable="false">key_notifications_vibrate</string>
+    <string name="key_data_category" translatable="false">key_data_category</string>
+    <string name="key_export_db_button" translatable="false">key_export_db_button</string>
+    <string name="key_import_db_button" translatable="false">key_import_db_button</string>
+
+    <!-- URLs -->
+    <string name="google_search_url">https://www.google.com/search?q=%1$s</string>
+    <string name="wikipedia_search_url">https://en.wikipedia.org/wiki/Special:Search?search=%1$s</string>
+
+</resources>

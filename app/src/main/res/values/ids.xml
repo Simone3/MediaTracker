@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item type="id" name="media_item_options_edit">1</item>
+    <item type="id" name="media_item_options_delete">2</item>
+    <item type="id" name="media_item_options_redo">3</item>
+    <item type="id" name="media_item_options_change_completion_date">4</item>
+    <item type="id" name="media_item_options_doing">5</item>
+    <item type="id" name="media_item_options_complete">6</item>
+    <item type="id" name="media_item_options_own">7</item>
+
+</resources>

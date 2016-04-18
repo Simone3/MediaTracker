@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+-   SINGLE ITEM FOR THE MEDIA ITEM LIST
+-->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/list_item_background"
+    android:baselineAligned="false">
+
+    <!-- DRAG&DROP HANDLE -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/handle"
+            android:layout_width="@dimen/list_drag_handler_size"
+            android:layout_height="@dimen/list_drag_handler_size"
+            android:layout_gravity="center_vertical|start"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_reorder"
+            android:contentDescription="@string/reorder"
+            android:tint="@color/list_options_color"
+            android:layout_marginStart="@dimen/list_drag_handler_padding"
+            android:layout_marginTop="@dimen/list_drag_handler_padding"
+            android:layout_marginBottom="@dimen/list_drag_handler_padding"/>
+
+    </LinearLayout>
+
+    <!-- CLICKABLE AREA -->
+    <LinearLayout
+        android:id="@+id/item_clickable_part"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="9"
+        android:layout_marginStart="@dimen/list_drag_handler_padding">
+
+        <!-- TITLE -->
+        <TextView
+            android:id="@+id/item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/list_title_text_size"/>
+
+        <!-- SUBTITLE 1 -->
+        <TextView
+            android:id="@+id/item_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/list_subtitle_text_size"
+            android:ellipsize="end"
+            android:singleLine="true"/>
+
+        <!-- SUBTITLE 2 -->
+        <TextView
+            android:id="@+id/item_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/list_subtitle_text_size"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textStyle="italic"/>
+
+    </LinearLayout>
+
+    <!-- OPTIONS MENU BUTTON -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/item_options_button"
+            android:layout_width="@dimen/list_options_button_size"
+            android:layout_height="@dimen/list_options_button_size"
+            android:background="@drawable/ic_more"
+            android:contentDescription="@string/options_button_description"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/list_options_color"/>
+
+    </LinearLayout>
+
+</LinearLayout>

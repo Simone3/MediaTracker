@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- COLOR PICKER -->
+    <array name="color_picker_options">
+        <item>@color/blue</item>
+        <item>@color/red</item>
+        <item>@color/green</item>
+        <item>@color/orange</item>
+        <item>@color/yellow</item>
+        <item>@color/purple</item>
+        <item>@color/cyan</item>
+        <item>@color/grey</item>
+    </array>
+
+</resources>

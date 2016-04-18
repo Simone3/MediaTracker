@@ -1,0 +1,41 @@
+<resources>
+
+    <!-- Categories grid -->
+    <dimen name="categories_grid_element_icon_size">80dp</dimen>
+    <dimen name="categories_grid_element_text_size">30sp</dimen>
+
+    <!-- Drawer -->
+    <dimen name="drawer_width">400dp</dimen>
+    <dimen name="drawer_text_size">25sp</dimen>
+    <dimen name="drawer_icon_size">60dp</dimen>
+    <dimen name="drawer_icon_padding">15dp</dimen>
+    <dimen name="drawer_text_padding">20dp</dimen>
+    <dimen name="drawer_sub_item_padding">15dp</dimen>
+
+    <!-- Media items list -->
+    <dimen name="list_title_text_size">30sp</dimen>
+    <dimen name="list_subtitle_text_size">20sp</dimen>
+    <dimen name="list_section_text_size">33sp</dimen>
+    <dimen name="list_options_button_size">40dp</dimen>
+    <dimen name="list_drag_handler_size">30dp</dimen>
+    <dimen name="list_drag_handler_padding">15dp</dimen>
+    <dimen name="list_section_padding">20dp</dimen>
+    <dimen name="list_padding_bottom">100dp</dimen>
+    <dimen name="list_empty_notice_text_size">30sp</dimen>
+    <dimen name="list_empty_notice_margin">50dp</dimen>
+
+    <!-- Forms -->
+    <dimen name="form_title_input_text_size">25sp</dimen>
+    <dimen name="form_input_text_size">23sp</dimen>
+
+    <!-- Suggestions -->
+    <dimen name="suggestions_title_text_size">30sp</dimen>
+    <dimen name="suggestions_media_item_title_text_size">25sp</dimen>
+    <dimen name="suggestions_media_item_subtitle_text_size">17sp</dimen>
+    <dimen name="suggestions_button_size">40dp</dimen>
+    <dimen name="suggestions_no_result_text_size">26sp</dimen>
+    <dimen name="suggestions_buttons_margin">15dp</dimen>
+    <dimen name="suggestions_result_margin">20dp</dimen>
+
+
+</resources>

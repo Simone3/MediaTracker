@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="themoviedb_api_key"></string><!-- TODO place TheMovieDB API key here! -->
+    <string name="giantbomb_api_key"></string><!-- TODO place GiantBomb DB API key here! -->
+</resources>

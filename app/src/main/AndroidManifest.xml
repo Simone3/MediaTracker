@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="it.polimi.dima.mediatracker"
+          xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- SAFE PERMISSIONS (NOT REQUESTED AT RUNTIME) -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
+    <!-- DANGEROUS PERMISSIONS (REQUESTED AT RUNTIME FOR API>=23) -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+    <!-- APPLICATION -->
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:name="com.orm.SugarApp"
+        android:fullBackupContent="@xml/backup_scheme">
+
+        <!-- ACTIVITIES -->
+        <activity
+            android:name=".activities.HomeActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.CategoryActivity"
+            android:label="@string/title_activity_media_items_list"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activities.HomeActivity">
+        </activity>
+        <activity
+            android:name=".activities.OnlyMediaItemFormActivity"
+            android:label="@string/title_activity_form"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activities.CategoryActivity">
+        </activity>
+        <activity
+            android:name=".activities.OnlyCategoryFormActivity"
+            android:label="@string/title_activity_form"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activities.HomeActivity">
+        </activity>
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activities.HomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:mimeType="*/*"
+                    android:host="*"
+                    android:scheme="file"
+                    android:pathPattern=".*\\.JSON"/>
+                <data
+                    android:mimeType="*/*"
+                    android:host="*"
+                    android:scheme="file"
+                    android:pathPattern=".*\\.json"/>
+            </intent-filter>
+        </activity>
+
+        <!-- RECEIVERS -->
+        <receiver android:name=".alarms.AlarmReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- PROVIDERS -->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="it.polimi.dima.mediatracker.fileprovider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
+
+        <!-- METADATA -->
+        <meta-data android:name="DATABASE" android:value="media_tracker.db"/>
+        <meta-data android:name="VERSION" android:value="5"/>
+        <meta-data android:name="QUERY_LOG" android:value="true"/>
+        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="it.polimi.dima.mediatracker.model"/>
+
+    </application>
+
+</manifest>

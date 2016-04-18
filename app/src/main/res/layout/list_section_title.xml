@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+-   SINGLE SECTION FOR THE MEDIA ITEM LIST
+-->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/list_item_background"
+    android:paddingTop="@dimen/list_section_padding"
+    android:paddingBottom="@dimen/list_section_padding">
+
+    <!-- SECTION TITLE -->
+    <TextView
+        android:id="@+id/list_section_title"
+        android:textSize="@dimen/list_section_text_size"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/section_text_color"
+        android:textAllCaps="true"
+        android:background="@android:color/transparent"/>
+
+</LinearLayout>

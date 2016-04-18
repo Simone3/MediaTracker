@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- HOME -->
+    <integer name="home_grid_columns">2</integer>
+
+    <!-- LISTS -->
+    <integer name="media_item_options_order_own">1</integer>
+    <integer name="media_item_options_order_doing">2</integer>
+    <integer name="media_item_options_order_complete">3</integer>
+    <integer name="media_item_options_order_redo">4</integer>
+    <integer name="media_item_options_order_change_completion_date">5</integer>
+    <integer name="media_item_options_order_edit">6</integer>
+    <integer name="media_item_options_order_delete">7</integer>
+
+</resources>

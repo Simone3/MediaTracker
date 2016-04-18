@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+ -   UPPER PART OF A GENERIC MEDIA ITEM FORM
+ -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="@dimen/form_bottom_margin">
+
+    <!-- User Comment -->
+    <EditText
+        android:id="@+id/form_user_comment_input"
+        style="@style/FormTextInputMultiLine"
+        android:hint="@string/form_title_user_comment"
+        android:drawableStart="@drawable/ic_form_notes"/>
+
+    <!-- Status (importance Level + owned) -->
+    <EditText
+        android:id="@+id/form_importance_level_button"
+        style="@style/FormDialogButton"
+        android:drawableStart="@drawable/ic_form_status"
+        android:hint=""/>
+    <Switch
+        android:id="@+id/form_owned_input"
+        style="@style/FormSwitch"
+        android:text="@string/form_title_owned"
+        android:drawableStart="@drawable/ic_form_owned"/>
+
+</LinearLayout>

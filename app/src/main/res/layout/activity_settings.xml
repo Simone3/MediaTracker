@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+ -   MAIN LAYOUT FOR SETTINGS ACTIVITY
+ -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/settings_main_container"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <!-- APP BAR -->
+    <include android:id="@+id/toolbar" layout="@layout/app_bar"/>
+
+    <!-- THE PREFERENCES FRAGMENT -->
+    <fragment android:name="it.polimi.dima.mediatracker.activities.SettingsActivity$PreferencesFragment"
+              android:id="@+id/settings_fragment"
+              android:layout_weight="2"
+              android:layout_width="match_parent"
+              android:layout_height="0dp"/>
+
+</LinearLayout>

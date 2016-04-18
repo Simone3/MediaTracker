@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+ -   CONTENT FOR TV SHOWS FORM
+ -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
+
+    <!-- Top part -->
+    <include layout="@layout/content_form_media_items_top_part"/>
+
+    <!-- Series numbers -->
+    <it.polimi.dima.mediatracker.layout.EditTextWithMeasureUnit
+        android:id="@+id/form_episodes_number_input"
+        style="@style/FormNumberInput"
+        android:hint="@string/form_title_episodes_number"
+        android:drawableStart="@drawable/ic_form_episodes_number"
+        app:measure_unit="@string/form_episodes"/>
+    <it.polimi.dima.mediatracker.layout.EditTextWithMeasureUnit
+        android:id="@+id/form_seasons_number_input"
+        style="@style/FormNumberInput"
+        android:hint="@string/form_title_seasons_number"
+        android:drawableStart="@drawable/ic_form_season_number"
+        app:measure_unit="@string/form_seasons"/>
+
+    <!-- In production -->
+    <Switch
+        android:id="@+id/form_in_production_input"
+        style="@style/FormSwitch"
+        android:text="@string/form_title_in_production"
+        android:drawableStart="@drawable/ic_form_in_production"/>
+
+    <!-- Next episode -->
+    <EditText
+        android:id="@+id/form_next_episode_button"
+        style="@style/FormDialogButton"
+        android:hint="@string/form_title_next_episode"
+        android:drawableStart="@drawable/ic_form_next_episode"
+        android:inputType="date"
+        android:visibility="gone"/>
+
+    <!-- Bottom part -->
+    <include layout="@layout/content_form_media_items_bottom_part"/>
+
+</LinearLayout>

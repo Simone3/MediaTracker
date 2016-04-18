@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+ -   CONTENT FOR BOOKS FORM
+ -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
+
+    <!-- Top part -->
+    <include layout="@layout/content_form_media_items_top_part"/>
+
+    <!-- Bottom part -->
+    <include layout="@layout/content_form_media_items_bottom_part"/>
+
+</LinearLayout>

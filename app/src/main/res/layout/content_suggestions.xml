@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+ -   CONTENT FOR SUGGESTIONS PAGE
+ -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.SuggestionsMediaItemAbstractActivity"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
+
+    <!-- Title -->
+    <TextView
+        style="@style/SuggestionsTitle"
+        android:text="@string/suggestions_title"
+        android:labelFor="@+id/suggestions_item_status"/>
+
+    <!-- Status -->
+    <EditText
+        android:id="@+id/suggestions_item_status"
+        style="@style/FormDialogButton"/>
+
+    <!-- Genres -->
+    <EditText
+        android:id="@+id/suggestions_genres"
+        style="@style/FormTextInputOneLine"
+        android:hint="@string/suggestions_genre_label"
+        android:drawableStart="@drawable/ic_form_genres"/>
+
+    <!-- Duration -->
+    <EditText
+        android:id="@+id/suggestions_duration"
+        style="@style/FormDialogButton"
+        android:hint=""
+        android:drawableStart="@drawable/ic_form_duration"/>
+
+    <!-- Owned -->
+    <EditText
+        android:id="@+id/suggestions_owned"
+        style="@style/FormDialogButton"
+        android:hint=""
+        android:drawableStart="@drawable/ic_form_owned"/>
+
+    <!-- Completion -->
+    <EditText
+        android:id="@+id/suggestions_completion"
+        style="@style/FormDialogButton"
+        android:hint=""
+        android:drawableStart="@drawable/ic_form_completion"/>
+
+    <!-- Result area -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/suggestions_result_area_padding">
+
+        <!-- Title -->
+        <TextView
+            style="@style/SuggestionsTitle"
+            android:text="@string/suggestions_result_title"
+            android:labelFor="@+id/suggestions_item_status"/>
+
+        <!-- If we have a result... -->
+        <LinearLayout
+            android:id="@+id/suggestions_result_area"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:baselineAligned="false"
+            android:gravity="center">
+
+            <!-- Media item info -->
+            <LinearLayout
+                android:id="@+id/suggestions_result_info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginStart="@dimen/suggestions_result_margin">
+
+                <TextView
+                    android:id="@+id/suggestions_result_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/suggestions_media_item_title_text_size"
+                    android:textColor="@android:color/black"/>
+                <TextView
+                    android:id="@+id/suggestions_result_subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/suggestions_media_item_subtitle_text_size"
+                    android:ellipsize="end"
+                    android:singleLine="true"/>
+                <TextView
+                    android:id="@+id/suggestions_result_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/suggestions_media_item_subtitle_text_size"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textStyle="italic"/>
+
+            </LinearLayout>
+
+            <!-- Options -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageButton
+                    android:id="@+id/suggestions_result_confirm"
+                    android:layout_width="@dimen/suggestions_button_size"
+                    android:layout_height="@dimen/suggestions_button_size"
+                    android:background="@drawable/ic_completed"
+                    android:contentDescription="@android:string/ok"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/list_options_color"
+                    android:layout_marginBottom="@dimen/suggestions_buttons_margin"/>
+
+                <ImageButton
+                    android:id="@+id/suggestions_result_reload"
+                    android:layout_width="@dimen/suggestions_button_size"
+                    android:layout_height="@dimen/suggestions_button_size"
+                    android:background="@drawable/ic_refresh"
+                    android:contentDescription="@string/reload"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/list_options_color"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- If we have no result... -->
+        <LinearLayout
+            android:id="@+id/suggestions_no_result_area"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:baselineAligned="false">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/suggestions_result_nothing"
+                android:textSize="@dimen/suggestions_no_result_text_size"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="EditTextWithMeasureUnit">
+        <attr name="measure_unit" format="string"/>
+        <attr name="measure_unit_text_color" format="color"/>
+    </declare-styleable>
+</resources>

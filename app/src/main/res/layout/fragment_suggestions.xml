@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+-   CONTENT FOR THE SUGGESTIONS FRAGMENT
+-->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.FormAbstractActivity">
+
+    <!-- APP BAR -->
+    <include layout="@layout/app_bar"/>
+
+    <!-- ALLOW SCROLLING -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <!-- ACTUAL SUGGESTIONS CONTENT (inflated by Java) -->
+        <LinearLayout
+            android:id="@+id/suggestions_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+
+    </ScrollView>
+
+</LinearLayout>
