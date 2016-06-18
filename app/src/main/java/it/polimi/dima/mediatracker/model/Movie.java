@@ -64,7 +64,14 @@ public class Movie extends MediaItem
         return durationMin;
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    int getDoingNowName()
+    {
+        return R.string.doing_now_movie;
+    }
 
     /************************************************ SETTERS ************************************************/
 

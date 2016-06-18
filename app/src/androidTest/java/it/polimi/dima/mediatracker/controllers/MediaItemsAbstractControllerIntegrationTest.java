@@ -97,7 +97,7 @@ public class MediaItemsAbstractControllerIntegrationTest extends AndroidTestCase
 
                 MediaItem newMediaItem = createRandomMediaItem();
 
-                controller.setMediaItemOrderInImportanceLevelBeforeInserting(createdFakeCategory, newMediaItem);
+                controller.setMediaItemOrderInSectionBeforeInserting(createdFakeCategory, newMediaItem);
                 controller.saveMediaItem(newMediaItem);
                 reloadListFromDb();
 
@@ -132,7 +132,7 @@ public class MediaItemsAbstractControllerIntegrationTest extends AndroidTestCase
 
                 System.out.println("########### updating "+pos+" ("+importanceLevels[currentIL]+"->"+importanceLevels[newIL]+") ###########");
 
-                controller.setMediaItemOrderInImportanceLevelBeforeUpdatingImportanceLevel(createdFakeCategory, mediaItems.get(pos));
+                controller.setMediaItemOrderInSectionBeforeUpdatingImportanceLevel(createdFakeCategory, mediaItems.get(pos));
                 controller.saveMediaItem(mediaItems.get(pos));
                 reloadListFromDb();
 
@@ -157,12 +157,14 @@ public class MediaItemsAbstractControllerIntegrationTest extends AndroidTestCase
 
                 moveMediaItem(from, to);
 
-                if(to!=mediaItems.size()-1 && !mediaItems.get(to+1).getImportanceLevel().equals(mediaItems.get(to).getImportanceLevel()))
+                if(to!=mediaItems.size()-1 && !mediaItems.get(to+1).isUpcoming() && !mediaItems.get(to+1).getImportanceLevel().equals(mediaItems.get(to).getImportanceLevel()))
                 {
+                    System.out.println("0000000000000000 set next il !"+mediaItems.get(to+1).getImportanceLevel()+"["+mediaItems.get(to+1).getId()+"].equals("+mediaItems.get(to).getImportanceLevel()+"["+mediaItems.get(to).getId()+"]");
                     mediaItems.get(to).setImportanceLevel(mediaItems.get(to+1).getImportanceLevel());
                 }
-                else if(to!=0 && !mediaItems.get(to-1).getImportanceLevel().equals(mediaItems.get(to).getImportanceLevel()))
+                else if(to!=0 && !mediaItems.get(to-1).isDoingNow() && !mediaItems.get(to-1).getImportanceLevel().equals(mediaItems.get(to).getImportanceLevel()))
                 {
+                    System.out.println("0000000000000000 set prev il !"+mediaItems.get(to-1).getImportanceLevel()+"["+mediaItems.get(to-1).getId()+"].equals("+mediaItems.get(to).getImportanceLevel()+"["+mediaItems.get(to).getId()+"]");
                     mediaItems.get(to).setImportanceLevel(mediaItems.get(to-1).getImportanceLevel());
                 }
 
@@ -186,12 +188,12 @@ public class MediaItemsAbstractControllerIntegrationTest extends AndroidTestCase
                     }
                 }
 
-                controller.setMediaItemOrderInImportanceLevelAfterMove(createdFakeCategory, mediaItems.get(to), previousMediaItemInSection, nextMediaItemInSection);
+                controller.setOrderInSectionAfterMove(createdFakeCategory, mediaItems.get(to), previousMediaItemInSection, nextMediaItemInSection);
 
                 System.out.println("########### [DUMP] " + dumpList());
             }
 
-            // Check if the order is correct
+            // Check if the order is correct (after each iteration)
             assertOrder();
         }
     }
@@ -212,7 +214,7 @@ public class MediaItemsAbstractControllerIntegrationTest extends AndroidTestCase
             {
                 if(!mediaItems.get(i).isUpcoming())
                 {
-                    if(mediaItems.get(i-1).getImportanceLevel().equals(mediaItems.get(i).getImportanceLevel()) && mediaItems.get(i-1).getOrderInImportanceLevel()>=mediaItems.get(i).getOrderInImportanceLevel())
+                    if(mediaItems.get(i-1).getImportanceLevel().equals(mediaItems.get(i).getImportanceLevel()) && mediaItems.get(i-1).getOrderInSection()>=mediaItems.get(i).getOrderInSection())
                     {
                         assertTrue("Wrong order at "+i, false);
                     }
@@ -283,7 +285,7 @@ public class MediaItemsAbstractControllerIntegrationTest extends AndroidTestCase
                 prevSection = section;
             }
 
-            temp += "["+mi.getId()+","+mi.getOrderInImportanceLevel()+"]";
+            temp += "["+mi.getId()+","+mi.getOrderInSection()+"]";
         }
         return temp;
     }

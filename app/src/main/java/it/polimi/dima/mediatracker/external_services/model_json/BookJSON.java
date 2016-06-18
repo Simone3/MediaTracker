@@ -95,7 +95,11 @@ public class BookJSON extends MediaItemJSON
         book.setAuthor(Utils.joinIfNotEmpty(", ", volInfo.authors));
         book.setPagesNumber(volInfo.pageCount);
 
-        String image = volInfo.imageLinks.image!=null ? volInfo.imageLinks.image : volInfo.imageLinks.imageAlternative;
+        String image = null;
+        if(volInfo.imageLinks!=null)
+        {
+            image = volInfo.imageLinks.image!=null ? volInfo.imageLinks.image : volInfo.imageLinks.imageAlternative;
+        }
         if(!Utils.isEmpty(image))
         {
             try

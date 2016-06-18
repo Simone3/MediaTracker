@@ -156,7 +156,7 @@
 
     <!-- MEDIA ITEMS LIST -->
     <string name="options_button_description">Media item options</string>
-    <string name="list_media_item_by_and_duration">%1$s &#8226; %2$s</string>
+    <string name="list_media_item_by_and_duration">%2$s &#8226; %1$s</string>
     <string name="completed_on_single">Completed on %1$s</string>
     <string name="completed_on_multiple">Completed %1$d times, last on %2$s</string>
     <string name="will_be_available_on">Will be available on %1$s</string>

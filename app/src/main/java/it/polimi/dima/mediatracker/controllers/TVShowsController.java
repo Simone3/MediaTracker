@@ -63,15 +63,6 @@ public class TVShowsController extends MediaItemsAbstractController
      * {@inheritDoc}
      */
     @Override
-    public int getDoingNowName()
-    {
-        return R.string.doing_now_tv_show;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public int getRedoOptionName()
     {
         return R.string.redo_tv_show;

@@ -18,7 +18,7 @@ import it.polimi.dima.mediatracker.utils.Utils;
 /**
  * Sectioned adapter for the tracked media items list
  */
-public class TrackedMediaItemsListAdapterWrapper extends SectionedAbstractAdapterWrapper
+public class TrackedMediaItemsAdapter extends MediaItemsAbstractAdapter
 {
     private Context context;
 
@@ -27,18 +27,17 @@ public class TrackedMediaItemsListAdapterWrapper extends SectionedAbstractAdapte
      * @param mediaItemList the media items in the list
      * @param optionNameDone the resource ID of the string for "I've done this" option
      * @param optionNameDoing the resource ID of the string for "I'm doing this" option
-     * @param sectionNameCallback the callback to get the section for each media item
      */
-    public TrackedMediaItemsListAdapterWrapper(List<MediaItem> mediaItemList, int optionNameDone, int optionNameDoing, SectionNameCallback sectionNameCallback)
+    public TrackedMediaItemsAdapter(List<MediaItem> mediaItemList, int optionNameDone, int optionNameDoing)
     {
-        TrackedSectionedAdapter adapter = new TrackedSectionedAdapter(mediaItemList, optionNameDone, optionNameDoing, sectionNameCallback);
+        TrackedInternalAdapter adapter = new TrackedInternalAdapter(mediaItemList, optionNameDone, optionNameDoing);
         super.setAdapterFromSubclass(adapter);
     }
 
     /**
-     * Private adapter
+     * {@inheritDoc}
      */
-    private class TrackedSectionedAdapter extends SectionedAbstractAdapter
+    private class TrackedInternalAdapter extends MediaItemsInternalAdapter
     {
         private int optionNameDone;
         private int optionNameDoing;
@@ -46,9 +45,9 @@ public class TrackedMediaItemsListAdapterWrapper extends SectionedAbstractAdapte
         /**
          * {@inheritDoc}
          */
-        private TrackedSectionedAdapter(List<MediaItem> mediaItemList, int optionNameDone, int optionNameDoing, SectionNameCallback sectionNameCallback)
+        private TrackedInternalAdapter(List<MediaItem> mediaItemList, int optionNameDone, int optionNameDoing)
         {
-            super(mediaItemList, sectionNameCallback);
+            super(mediaItemList);
 
             this.optionNameDone = optionNameDone;
             this.optionNameDoing = optionNameDoing;
@@ -58,7 +57,7 @@ public class TrackedMediaItemsListAdapterWrapper extends SectionedAbstractAdapte
          * {@inheritDoc}
          */
         @Override
-        protected RecyclerView.ViewHolder onCreateElementViewHolder(ViewGroup parent, int viewType)
+        protected RecyclerView.ViewHolder onCreateItemViewHolder(ViewGroup parent, int viewType)
         {
             context = parent.getContext();
 
@@ -73,23 +72,23 @@ public class TrackedMediaItemsListAdapterWrapper extends SectionedAbstractAdapte
          * {@inheritDoc}
          */
         @Override
-        protected void onBindElementViewHolder(RecyclerView.ViewHolder itemHolder, int actualItemPosition)
+        protected void onBindItemViewHolder(RecyclerView.ViewHolder itemHolder, int actualItemPosition)
         {
             // Get data
             TrackedElementViewHolder holder = (TrackedElementViewHolder) itemHolder;
-            MediaItem mediaItem = getMediaItemList().get(actualItemPosition);
+            MediaItem mediaItem = getItemsList().get(actualItemPosition);
 
-            // Get values depending on mediaItem status
+            // Get values depending on media item status
             int titleColor = R.color.owned_media_item_text_color;
-            if (mediaItem.isUpcoming())
+            if(mediaItem.isUpcoming())
             {
                 titleColor = R.color.upcoming_media_item_text_color;
             }
-            else if (mediaItem.isDoingNow())
+            else if(mediaItem.isDoingNow())
             {
                 titleColor = R.color.doing_now_media_item_text_color;
             }
-            else if (!mediaItem.isOwned())
+            else if(!mediaItem.isOwned())
             {
                 titleColor = R.color.non_owned_media_item_text_color;
             }

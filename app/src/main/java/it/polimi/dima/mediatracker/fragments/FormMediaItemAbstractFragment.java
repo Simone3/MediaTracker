@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,10 +32,10 @@ import it.polimi.dima.mediatracker.controllers.CategoriesController;
 import it.polimi.dima.mediatracker.controllers.MediaItemsAbstractController;
 import it.polimi.dima.mediatracker.external_services.services.MediaItemService;
 import it.polimi.dima.mediatracker.inputs.AbstractInput;
-import it.polimi.dima.mediatracker.inputs.SwitchInput;
 import it.polimi.dima.mediatracker.inputs.DatePickerInput;
 import it.polimi.dima.mediatracker.inputs.EditTextInput;
 import it.polimi.dima.mediatracker.inputs.SelectDialogInput;
+import it.polimi.dima.mediatracker.inputs.SwitchInput;
 import it.polimi.dima.mediatracker.layout.AutoCompleteTextViewWithDelay;
 import it.polimi.dima.mediatracker.model.Category;
 import it.polimi.dima.mediatracker.model.ImportanceLevel;
@@ -257,18 +256,16 @@ public abstract class FormMediaItemAbstractFragment extends FormAbstractFragment
     @Override
     protected boolean canExitForm()
     {
-        Log.v("((((((((((((", "canExit");
         boolean canExit = true;
         if(inputs!=null) for(AbstractInput input: inputs)
         {
-            Log.v("((((((((((((", "wcbu@"+input.getClass()+"="+input.wasChangedByUser());
             if(input.wasChangedByUser())
             {
                 canExit = false;
                 break;
             }
         }
-        Log.v("((((((((((((", "res="+canExit);
+
         return canExit;
     }
 
@@ -308,13 +305,13 @@ public abstract class FormMediaItemAbstractFragment extends FormAbstractFragment
         // If we are editing and importance level changed, update order value
         if(isEditingForm() && !mediaItem.getImportanceLevel().equals(previousImportanceLevel))
         {
-            controller.setMediaItemOrderInImportanceLevelBeforeUpdatingImportanceLevel(category, mediaItem);
+            controller.setMediaItemOrderInSectionBeforeUpdatingImportanceLevel(category, mediaItem);
         }
 
         // If we are adding, set first order value
         if(!isEditingForm())
         {
-            controller.setMediaItemOrderInImportanceLevelBeforeInserting(category, mediaItem);
+            controller.setMediaItemOrderInSectionBeforeInserting(category, mediaItem);
         }
     }
 

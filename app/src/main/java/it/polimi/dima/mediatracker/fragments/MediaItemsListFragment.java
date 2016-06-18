@@ -27,10 +27,11 @@ import java.util.Date;
 import java.util.List;
 
 import it.polimi.dima.mediatracker.R;
-import it.polimi.dima.mediatracker.adapters.media_items_list.AdapterSection;
-import it.polimi.dima.mediatracker.adapters.media_items_list.CompletedMediaItemsAdapterWrapper;
-import it.polimi.dima.mediatracker.adapters.media_items_list.SectionedAbstractAdapterWrapper;
-import it.polimi.dima.mediatracker.adapters.media_items_list.TrackedMediaItemsListAdapterWrapper;
+import it.polimi.dima.mediatracker.adapters.media_items_list.MediaItemsAbstractAdapter;
+import it.polimi.dima.mediatracker.model.Section;
+import it.polimi.dima.mediatracker.adapters.media_items_list.CompletedMediaItemsAdapter;
+import it.polimi.dima.mediatracker.adapters.media_items_list.SectionedRecyclerViewAdapter;
+import it.polimi.dima.mediatracker.adapters.media_items_list.TrackedMediaItemsAdapter;
 import it.polimi.dima.mediatracker.controllers.CategoriesController;
 import it.polimi.dima.mediatracker.controllers.MediaItemsAbstractController;
 import it.polimi.dima.mediatracker.layout.RecyclerViewDividerItemDecoration;
@@ -51,7 +52,7 @@ public class MediaItemsListFragment extends ContentAbstractFragment
 
     private String currentSearchQuery = null;
 
-    private SectionedAbstractAdapterWrapper adapterWrapper;
+    private MediaItemsAbstractAdapter adapterWrapper;
 
     private SearchView searchView;
 
@@ -206,44 +207,12 @@ public class MediaItemsListFragment extends ContentAbstractFragment
         // Build adapter based on the type of list
         if(isCompletedItemsPage)
         {
-            // In the completed list media items are grouped by year
-            adapterWrapper = new CompletedMediaItemsAdapterWrapper(mediaItems, controller.getRedoOptionName(), new SectionedAbstractAdapterWrapper.SectionNameCallback()
-            {
-                @Override
-                public AdapterSection onSectionNameRequest(MediaItem mediaItem)
-                {
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(mediaItem.getCompletionDate());
-                    String year = String.valueOf(calendar.get(Calendar.YEAR));
-                    return new AdapterSection(year, year);
-                }
-            });
+            adapterWrapper = new CompletedMediaItemsAdapter(mediaItems, controller.getRedoOptionName());
         }
         else
         {
             // In the tracked list media items are grouped by doing/importance/upcoming
-            adapterWrapper = new TrackedMediaItemsListAdapterWrapper(mediaItems, controller.getCompleteOptionName(), controller.getDoingOptionName(), new SectionedAbstractAdapterWrapper.SectionNameCallback()
-            {
-                @Override
-                public AdapterSection onSectionNameRequest(MediaItem mediaItem)
-                {
-                    if(mediaItem.isUpcoming())
-                    {
-                        return new AdapterSection(GlobalConstants.SECTION_UPCOMING, getString(R.string.upcoming));
-                    }
-                    else
-                    {
-                        if(mediaItem.isDoingNow())
-                        {
-                            return new AdapterSection(GlobalConstants.SECTION_DOING_NOW, getString(controller.getDoingNowName()));
-                        }
-                        else
-                        {
-                            return new AdapterSection(mediaItem.getImportanceLevel().name(), mediaItem.getImportanceLevel().getName(getActivity()));
-                        }
-                    }
-                }
-            });
+            adapterWrapper = new TrackedMediaItemsAdapter(mediaItems, controller.getCompleteOptionName(), controller.getDoingOptionName());
         }
 
         // Manage layout
@@ -273,13 +242,13 @@ public class MediaItemsListFragment extends ContentAbstractFragment
                 // Add them to the adapter
                 if(mediaItems.size()>0)
                 {
-                    adapterWrapper.addMediaItemsAtTheEndAndNotify(mediaItems);
+                    adapterWrapper.addItemsAtTheEndAndNotify(mediaItems);
                 }
             }
         });
 
         // Add a listener for menu options for each list element
-        adapterWrapper.setOnItemOptionSelectListener(new SectionedAbstractAdapterWrapper.ListElementListener()
+        adapterWrapper.setOnItemOptionSelectListener(new MediaItemsAbstractAdapter.RowListener()
         {
             @Override
             public void onMediaItemOptionSelected(MenuItem menuItem, final int selectedPosition)
@@ -356,7 +325,7 @@ public class MediaItemsListFragment extends ContentAbstractFragment
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
                             {
                                 completionDateCalendar.set(year, monthOfYear, dayOfMonth);
-                                controller.setMediaItemAsCompleted(selectedMediaItem, completionDateCalendar.getTime());
+                                controller.updateMediaItemCompletionDate(selectedMediaItem, completionDateCalendar.getTime());
                                 refreshMediaItemsListFromDatabase();
                             }
                         }, completionDateCalendar.get(Calendar.YEAR), completionDateCalendar.get(Calendar.MONTH), completionDateCalendar.get(Calendar.DAY_OF_MONTH));
@@ -391,19 +360,19 @@ public class MediaItemsListFragment extends ContentAbstractFragment
         if(!isCompletedItemsPage)
         {
             // Add listener for swiping and dragging
-            SectionedAbstractAdapterWrapper.SectionedAdapterTouchHelperCallback simpleItemTouchCallback = adapterWrapper.new SectionedAdapterTouchHelperCallback()
+            SectionedRecyclerViewAdapter.SectionedAdapterTouchHelperCallback simpleItemTouchCallback = adapterWrapper.new SectionedAdapterTouchHelperCallback()
             {
                 @Override
-                public int getMediaItemMovementFlags(int mediaItemPosition, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder)
+                public int getItemMovementFlags(int itemPosition, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder)
                 {
                     // Allow dragging only if not in the upcoming section
                     int dragFlags;
-                    if(adapterWrapper.get(mediaItemPosition).isUpcoming()) dragFlags = 0;
+                    if(adapterWrapper.get(itemPosition).isUpcoming()) dragFlags = 0;
                     else dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
 
                     // All swiping only if owned and not upcoming
                     int swipeFlags;
-                    if(adapterWrapper.get(mediaItemPosition).isUpcoming() || !adapterWrapper.get(mediaItemPosition).isOwned()) swipeFlags = 0;
+                    if(adapterWrapper.get(itemPosition).isUpcoming() || !adapterWrapper.get(itemPosition).isOwned()) swipeFlags = 0;
                     else swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
 
                     // Make flags
@@ -411,26 +380,26 @@ public class MediaItemsListFragment extends ContentAbstractFragment
                 }
 
                 @Override
-                public boolean onMediaItemMove(int mediaItemPosition, int targetMediaItemPosition, AdapterSection mediaItemSection, AdapterSection targetMediaItemSection, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target)
+                public boolean onItemMove(int itemPosition, int targetItemPosition, Section itemSection, Section targetItemSection, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target)
                 {
                     // Disallow moving an item INTO the upcoming section
-                    if(GlobalConstants.SECTION_UPCOMING.equals(targetMediaItemSection.getSectionId()))
+                    if(GlobalConstants.SECTION_UPCOMING.equals(targetItemSection.getSectionId()))
                     {
                         return false;
                     }
 
                     // Move media items in the adapter
-                    adapterWrapper.moveItemAndNotify(mediaItemPosition, targetMediaItemPosition, mediaItemSection, targetMediaItemSection);
+                    adapterWrapper.moveItemAndNotify(itemPosition, targetItemPosition, itemSection, targetItemSection);
 
                     // Movement successful
                     return true;
                 }
 
                 @Override
-                public void onMediaItemSwiped(int mediaItemPosition, RecyclerView.ViewHolder viewHolder, int direction)
+                public void onItemSwiped(int itemPosition, RecyclerView.ViewHolder viewHolder, int direction)
                 {
                     // Set item as completed
-                    final MediaItem mediaItemToSetAsCompleted = setItemAsCompleted(mediaItemPosition);
+                    final MediaItem mediaItemToSetAsCompleted = setItemAsCompleted(itemPosition);
 
                     // Show "undo" option
                     Snackbar snackbar = Snackbar
@@ -448,24 +417,24 @@ public class MediaItemsListFragment extends ContentAbstractFragment
                 }
 
                 @Override
-                public void onMediaItemDropped(int mediaItemPosition, int targetMediaItemPosition, AdapterSection mediaItemSection, AdapterSection targetMediaItemSection)
+                public void onItemDropped(int itemPosition, int targetItemPosition, Section itemSection, Section targetItemSection)
                 {
                     // If the section changed during the drag&drop...
-                    if(!mediaItemSection.equals(targetMediaItemSection))
+                    if(!itemSection.equals(targetItemSection))
                     {
                         boolean checkImportanceSection = true;
 
                         // If the item is now in "Doing Now" set it as such
-                        if(GlobalConstants.SECTION_DOING_NOW.equals(targetMediaItemSection.getSectionId()))
+                        if(GlobalConstants.SECTION_DOING_NOW.equals(targetItemSection.getSectionId()))
                         {
-                            controller.setMediaItemAsDoingNow(adapterWrapper.get(targetMediaItemPosition), true);
+                            controller.setMediaItemAsDoingNow(adapterWrapper.get(targetItemPosition), true);
                             checkImportanceSection = false;
                         }
 
                         // If the item was in "Doing Now" set it as not doing now anymore
-                        else if(GlobalConstants.SECTION_DOING_NOW.equals(mediaItemSection.getSectionId()))
+                        else if(GlobalConstants.SECTION_DOING_NOW.equals(itemSection.getSectionId()))
                         {
-                            controller.setMediaItemAsDoingNow(adapterWrapper.get(targetMediaItemPosition), false);
+                            controller.setMediaItemAsDoingNow(adapterWrapper.get(targetItemPosition), false);
                         }
 
                         // If the importance level changed, update it
@@ -473,52 +442,48 @@ public class MediaItemsListFragment extends ContentAbstractFragment
                         {
                             for(ImportanceLevel level: ImportanceLevel.values())
                             {
-                                if(level.name().equals(targetMediaItemSection.getSectionId()))
+                                if(level.name().equals(targetItemSection.getSectionId()))
                                 {
-                                    adapterWrapper.get(targetMediaItemPosition).setImportanceLevel(level);
-                                    controller.saveMediaItem(adapterWrapper.get(targetMediaItemPosition));
+                                    adapterWrapper.get(targetItemPosition).setImportanceLevel(level);
+                                    controller.saveMediaItem(adapterWrapper.get(targetItemPosition));
                                 }
                             }
                         }
                     }
 
-                    // If we aren't in the "doing now" section...
-                    if(!GlobalConstants.SECTION_DOING_NOW.equals(targetMediaItemSection.getSectionId()))
+                    // Get moved media item
+                    MediaItem movedMediaItem = adapterWrapper.get(targetItemPosition);
+
+                    // Get previous media item in the new section (null if it's the first)
+                    MediaItem previousMediaItemInSection = null;
+                    if(targetItemPosition>0)
                     {
-                        // Get moved media item
-                        MediaItem movedMediaItem = adapterWrapper.get(targetMediaItemPosition);
-
-                        // Get previous media item in the moved media item importance level section (null if it's the first)
-                        MediaItem previousMediaItemInSection = null;
-                        if(targetMediaItemPosition>0)
+                        MediaItem temp = adapterWrapper.get(targetItemPosition-1);
+                        if(targetItemSection.equals(temp.getSection()))
                         {
-                            MediaItem temp = adapterWrapper.get(targetMediaItemPosition-1);
-                            if(!temp.isDoingNow() && movedMediaItem.getImportanceLevel().equals(temp.getImportanceLevel()))
-                            {
-                                previousMediaItemInSection = temp;
-                            }
+                            previousMediaItemInSection = temp;
                         }
-
-                        // Get next media item in the moved media item importance level section (null if it's the last)
-                        MediaItem nextMediaItemInSection = null;
-                        if(targetMediaItemPosition<adapterWrapper.getItemCount()-1)
-                        {
-                            MediaItem temp = adapterWrapper.get(targetMediaItemPosition+1);
-                            if(!temp.isUpcoming() && movedMediaItem.getImportanceLevel().equals(temp.getImportanceLevel()))
-                            {
-                                nextMediaItemInSection = temp;
-                            }
-                        }
-
-                        // Update order value
-                        controller.setMediaItemOrderInImportanceLevelAfterMove(category, movedMediaItem, previousMediaItemInSection, nextMediaItemInSection);
-
-                        // Save media item
-                        controller.saveMediaItem(movedMediaItem);
                     }
 
+                    // Get next media item in the new section (null if it's the last)
+                    MediaItem nextMediaItemInSection = null;
+                    if(targetItemPosition<adapterWrapper.getItemCount()-1)
+                    {
+                        MediaItem temp = adapterWrapper.get(targetItemPosition+1);
+                        if(targetItemSection.equals(temp.getSection()))
+                        {
+                            nextMediaItemInSection = temp;
+                        }
+                    }
+
+                    // Update order value
+                    controller.setOrderInSectionAfterMove(category, movedMediaItem, previousMediaItemInSection, nextMediaItemInSection);
+
+                    // Save media item
+                    controller.saveMediaItem(movedMediaItem);
+
                     // Notify that all mediaItems between old and new position have changed (actual edits done above or just the option menu index)
-                    adapterWrapper.notifyItemRangeChanged(mediaItemPosition < targetMediaItemPosition ? mediaItemPosition : targetMediaItemPosition, Math.abs(mediaItemPosition - targetMediaItemPosition)+1);
+                    adapterWrapper.notifyItemRangeChanged(itemPosition<targetItemPosition ? itemPosition : targetItemPosition, Math.abs(itemPosition-targetItemPosition)+1);
                 }
             };
 
@@ -527,7 +492,7 @@ public class MediaItemsListFragment extends ContentAbstractFragment
             itemTouchHelper.attachToRecyclerView(recyclerView);
 
             // Also manage the "drag handler" icon
-            adapterWrapper.setDragHandlerListener(new SectionedAbstractAdapterWrapper.DragHandlerListener()
+            adapterWrapper.setDragHandlerListener(new MediaItemsAbstractAdapter.DragHandlerListener()
             {
                 @Override
                 public void onStartDrag(RecyclerView.ViewHolder viewHolder)

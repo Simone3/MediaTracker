@@ -63,15 +63,6 @@ public class VideogamesController extends MediaItemsAbstractController
      * {@inheritDoc}
      */
     @Override
-    public int getDoingNowName()
-    {
-        return R.string.doing_now_videogame;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public int getRedoOptionName()
     {
         return R.string.redo_videogame;

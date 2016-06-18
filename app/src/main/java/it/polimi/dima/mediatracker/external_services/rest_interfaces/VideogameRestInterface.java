@@ -12,6 +12,8 @@ import retrofit2.http.Query;
  */
 public interface VideogameRestInterface
 {
+    String FIELD_LIST = "id,original_release_date,expected_release_day,expected_release_month,expected_release_year,genres,name,deck,developers,publishers,platforms,image";
+
     /**
      * Searches videogames
      * @param query the title to search
@@ -28,6 +30,6 @@ public interface VideogameRestInterface
      * @param apiKey the service API key
      * @return the videogame JSON representation
      */
-    @GET("game/{gameId}/?format=json")
+    @GET("game/{gameId}/?format=json&field_list="+FIELD_LIST)
     Call<VideogameJSON> getVideogameInfo(@Path("gameId") String gameId, @Query("api_key") String apiKey);
 }

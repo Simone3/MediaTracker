@@ -14,6 +14,8 @@ import it.polimi.dima.mediatracker.utils.Utils;
 
 /**
  * A videogame representation in JSON, used to retrieve data from the external service responses
+ *
+ * NOTE: remember the "field_list" parameter in the query ({@link it.polimi.dima.mediatracker.external_services.rest_interfaces.VideogameRestInterface})
  */
 public class VideogameJSON extends MediaItemJSON
 {
@@ -162,7 +164,11 @@ public class VideogameJSON extends MediaItemJSON
         videogame.setPublisher(Utils.joinIfNotEmpty(", ", result.publishers));
         videogame.setPlatforms(Utils.joinIfNotEmpty(", ", result.platforms));
 
-        String image = result.image.image!=null ? result.image.image : result.image.imageAlternative;
+        String image = null;
+        if(result.image!=null)
+        {
+            image = result.image.image!=null ? result.image.image : result.image.imageAlternative;
+        }
         if(!Utils.isEmpty(image))
         {
             try

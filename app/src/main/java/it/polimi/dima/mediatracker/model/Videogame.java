@@ -84,6 +84,15 @@ public class Videogame extends MediaItem
         return averageLengthHours;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    int getDoingNowName()
+    {
+        return R.string.doing_now_videogame;
+    }
+
 
 
     /************************************************ SETTERS ************************************************/

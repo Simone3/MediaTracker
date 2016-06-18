@@ -11,13 +11,15 @@ import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 
+import it.polimi.dima.mediatracker.R;
+import it.polimi.dima.mediatracker.utils.GlobalConstants;
 import it.polimi.dima.mediatracker.utils.Utils;
 
 /**
  * A generic media item, contains all properties common to all its implementations (e.g. title)
  * It's a SugarRecord implementation: the external library Sugar ORM takes care of the database table automatically
  */
-public abstract class MediaItem extends SugarRecord implements Serializable
+public abstract class MediaItem extends SugarRecord implements Serializable, Sectioned
 {
     public static final String COLUMN_ID = "ID";
     public static final String COLUMN_NAME = "NAME";
@@ -27,7 +29,7 @@ public abstract class MediaItem extends SugarRecord implements Serializable
     public final static String COLUMN_DOING_NOW = "DOING_NOW";
     public final static String COLUMN_RELEASE_DATE = "RELEASE_DATE";
     public final static String COLUMN_IMPORTANCE_LEVEL = "IMPORTANCE_LEVEL";
-    public final static String COLUMN_ORDER_IN_IMPORTANCE_LEVEL = "ORDER_IN_IMPORTANCE_LEVEL";
+    public final static String COLUMN_ORDER_IN_SECTION = "ORDER_IN_SECTION";
     public final static String COLUMN_OWNED = "OWNED";
     public final static String COLUMN_GENRES = "GENRES";
 
@@ -52,7 +54,7 @@ public abstract class MediaItem extends SugarRecord implements Serializable
     @Ignore
     private URL imageUrl;
     private String image;
-    private int orderInImportanceLevel;
+    private int orderInSection;
 
 
     /************************************************ GETTERS ************************************************/
@@ -228,11 +230,11 @@ public abstract class MediaItem extends SugarRecord implements Serializable
 
     /**
      * Getter
-     * @return  the order value inside the media item's importance level (i.e. items with the same importance level are ordered by this value)
+     * @return the order value inside the media item's importance level (i.e. items with the same importance level are ordered by this value)
      */
-    public int getOrderInImportanceLevel()
+    public int getOrderInSection()
     {
-        return orderInImportanceLevel;
+        return orderInSection;
     }
 
     /**
@@ -243,6 +245,54 @@ public abstract class MediaItem extends SugarRecord implements Serializable
     {
         return isUpcoming() ? 0 : timesCompleted;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Section getSection()
+    {
+        // If it's completed...
+        if(isCompleted())
+        {
+            // The section is the completion year
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(getCompletionDate());
+            String year = String.valueOf(calendar.get(Calendar.YEAR));
+            return new Section(year, year);
+        }
+
+        // Otherwise...
+        else
+        {
+            // "Upcoming" section
+            if(isUpcoming())
+            {
+                return new Section(GlobalConstants.SECTION_UPCOMING, R.string.upcoming);
+            }
+            else
+            {
+                // "Doing Now" section
+                if(isDoingNow())
+                {
+                    return new Section(GlobalConstants.SECTION_DOING_NOW, getDoingNowName());
+                }
+
+                // Importance Level section
+                else
+                {
+                    return new Section(getImportanceLevel().name(), getImportanceLevel().getNameResource());
+                }
+            }
+        }
+    }
+
+    /**
+     * String for the "doing now" section name
+     * @return the resource id of the string
+     */
+    abstract int getDoingNowName();
+
 
 
     /************************************************ SETTERS ************************************************/
@@ -361,11 +411,11 @@ public abstract class MediaItem extends SugarRecord implements Serializable
 
     /**
      * Setter
-     * @param orderInImportanceLevel the order value inside the media item's importance level (i.e. items with the same importance level are ordered by this value)
+     * @param orderInSection the order value inside the media item's importance level (i.e. items with the same importance level are ordered by this value)
      */
-    public void setOrderInImportanceLevel(int orderInImportanceLevel)
+    public void setOrderInSection(int orderInSection)
     {
-        this.orderInImportanceLevel = orderInImportanceLevel;
+        this.orderInSection = orderInSection;
     }
 
     /**

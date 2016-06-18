@@ -63,15 +63,6 @@ public class BooksController extends MediaItemsAbstractController
      * {@inheritDoc}
      */
     @Override
-    public int getDoingNowName()
-    {
-        return R.string.doing_now_book;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public int getRedoOptionName()
     {
         return R.string.redo_book;

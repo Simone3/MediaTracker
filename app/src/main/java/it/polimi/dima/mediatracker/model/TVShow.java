@@ -110,7 +110,18 @@ public class TVShow extends MediaItem
         return Calendar.getInstance().getTime().after(nextEpisodeAirDate) ? null : nextEpisodeAirDate;
     }
 
-/************************************************ SETTERS ************************************************/
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    int getDoingNowName()
+    {
+        return R.string.doing_now_tv_show;
+    }
+
+
+
+    /************************************************ SETTERS ************************************************/
 
 
     /**

@@ -1,6 +1,7 @@
 package it.polimi.dima.mediatracker.model;
 
 import android.content.Context;
+import android.support.annotation.StringRes;
 
 import it.polimi.dima.mediatracker.R;
 
@@ -22,7 +23,7 @@ public enum ImportanceLevel
      * @param dbValue the importance level "weight" (will be saved in the database and used for ordering)
      * @param name the importance level name resource ID
      */
-    ImportanceLevel(int dbValue, int name)
+    ImportanceLevel(int dbValue, @StringRes int name)
     {
         this.dbValue = dbValue;
         this.name = name;
@@ -40,10 +41,19 @@ public enum ImportanceLevel
     /**
      * Getter
      * @param context the context
-     * @return the importance level name resource ID
+     * @return the importance level name
      */
     public String getName(Context context)
     {
-        return context.getString(this.name);
+        return context.getString(name);
+    }
+
+    /**
+     * Getter
+     * @return the importance level name resource ID
+     */
+    public @StringRes int getNameResource()
+    {
+        return name;
     }
 }

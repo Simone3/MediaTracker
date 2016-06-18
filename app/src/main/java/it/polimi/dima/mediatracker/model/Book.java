@@ -64,7 +64,14 @@ public class Book extends MediaItem
         return pagesNumber;
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    int getDoingNowName()
+    {
+        return R.string.doing_now_book;
+    }
 
     /************************************************ SETTERS ************************************************/
 

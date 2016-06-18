@@ -17,6 +17,7 @@ import it.polimi.dima.mediatracker.fragments.SuggestionsAbstractFragment;
 import it.polimi.dima.mediatracker.model.Category;
 import it.polimi.dima.mediatracker.model.ImportanceLevel;
 import it.polimi.dima.mediatracker.model.MediaItem;
+import it.polimi.dima.mediatracker.model.Section;
 import it.polimi.dima.mediatracker.model.Subcategory;
 import it.polimi.dima.mediatracker.utils.GlobalConstants;
 import it.polimi.dima.mediatracker.utils.Utils;
@@ -51,12 +52,6 @@ public abstract class MediaItemsAbstractController
      * @return the external service that manages this media type
      */
     public abstract MediaItemService getMediaItemService(Context context);
-
-    /**
-     * String for the "doing now" notice for this media type
-     * @return the resource id of the string
-     */
-    public abstract int getDoingNowName();
 
     /**
      * String for the "I could redo this" media item option
@@ -134,10 +129,36 @@ public abstract class MediaItemsAbstractController
         List<MediaItem> mediaItems = null;
         if(category.getId()!=null)
         {
-            long now = Calendar.getInstance().getTimeInMillis();
             String where = MediaItem.COLUMN_CATEGORY+" = ? AND "+ MediaItem.COLUMN_COMPLETION_DATE+" IS NULL";
             String[] whereArgs = new String[]{category.getId().toString()};
-            String orderBy = MediaItem.COLUMN_DOING_NOW+" DESC, (CASE WHEN "+MediaItem.COLUMN_RELEASE_DATE+" IS NULL OR "+MediaItem.COLUMN_RELEASE_DATE+" < "+now+" THEN 0 ELSE "+MediaItem.COLUMN_RELEASE_DATE+" END) ASC, "+ MediaItem.COLUMN_IMPORTANCE_LEVEL+" DESC, "+MediaItem.COLUMN_ORDER_IN_IMPORTANCE_LEVEL+" ASC";
+
+            Integer minIl = null, maxIl = null;
+            for(ImportanceLevel il: ImportanceLevel.values())
+            {
+                if(minIl==null || il.getDbValue()<minIl)
+                {
+                    minIl = il.getDbValue();
+                }
+                if(maxIl==null || il.getDbValue()>maxIl)
+                {
+                    maxIl = il.getDbValue();
+                }
+            }
+            if(minIl==null) throw new IllegalStateException("Something went really wrong with importance levels");
+            long now = Calendar.getInstance().getTimeInMillis();
+            final String IS_DOING_NOW = MediaItem.COLUMN_DOING_NOW+" = 1";
+            final String IS_UPCOMING = "("+MediaItem.COLUMN_RELEASE_DATE+" IS NOT NULL AND "+MediaItem.COLUMN_RELEASE_DATE+" > "+now+")";
+            String orderBy =
+                    "(CASE WHEN "+IS_DOING_NOW+" "+
+                        "THEN "+(maxIl+1)+" "+
+                        "ELSE "+
+                            "(CASE WHEN "+IS_UPCOMING+" "+
+                                "THEN "+(minIl-1)+" "+
+                                "ELSE "+MediaItem.COLUMN_IMPORTANCE_LEVEL+" END) END) DESC, "+
+                    "(CASE WHEN "+IS_UPCOMING+" "+
+                        "THEN "+MediaItem.COLUMN_RELEASE_DATE+" "+
+                        "ELSE "+MediaItem.COLUMN_ORDER_IN_SECTION+" END) ASC";
+
             String limit = buildSelectLimitWithPage(page);
             mediaItems = MediaItem.find(getModelClass(), where, whereArgs, "", orderBy, limit);
         }
@@ -412,32 +433,61 @@ public abstract class MediaItemsAbstractController
     /**
      * Queries the database for the last media item in the order inside the given importance level
      * @param category the media item category
-     * @param importanceLevel the media item importance level
+     * @param section the media item section
      * @return the media item with highest order value
      */
     @SuppressWarnings("unchecked")
-    private MediaItem getLastMediaItemInImportanceLevel(Category category, ImportanceLevel importanceLevel)
+    private MediaItem getLastMediaItemInSection(Category category, Section section)
     {
-        List<MediaItem> mediaItems = getAllMediaItemsInImportanceLevel(category, importanceLevel);
+        List<MediaItem> mediaItems = getAllMediaItemsInSection(category, section);
         return mediaItems!=null && mediaItems.size()>0 ? mediaItems.get(mediaItems.size()-1) : null;
     }
 
     /**
      * Returns the ordered list of all media items in the given importance level (without considering upcoming or "doing now" media items)
      * @param category the media item category
-     * @param importanceLevel the media item importance level
+     * @param section the media item section
      * @return the list of media items with the given importance level
      */
     @SuppressWarnings("unchecked")
-    private List<MediaItem> getAllMediaItemsInImportanceLevel(Category category, ImportanceLevel importanceLevel)
+    private List<MediaItem> getAllMediaItemsInSection(Category category, Section section)
     {
         List<MediaItem> mediaItems = null;
         if(category.getId()!=null)
         {
-            String where = MediaItem.COLUMN_CATEGORY+" = ? AND "+MediaItem.COLUMN_IMPORTANCE_LEVEL+" = ? AND "+MediaItem.COLUMN_RELEASE_DATE + " <= ? AND doing_now = ?";
-            String[] whereArgs = new String[]{category.getId().toString(), String.valueOf(importanceLevel.getDbValue()), String.valueOf(Calendar.getInstance().getTimeInMillis()), "0"};
-            String orderBy = MediaItem.COLUMN_ORDER_IN_IMPORTANCE_LEVEL+" ASC";
-            mediaItems = MediaItem.find(getModelClass(), where, whereArgs, "", orderBy, null);
+            String where = MediaItem.COLUMN_CATEGORY+" = ? ";
+            List<String> whereArgs = new ArrayList<>();
+            whereArgs.add(category.getId().toString());
+
+            // TODO this switch is bad, find a better way! Move all section management in controllers?
+            sectionSwitch: switch(section.getSectionId())
+            {
+                case GlobalConstants.SECTION_DOING_NOW:
+                    where += " AND "+MediaItem.COLUMN_DOING_NOW+" = ?";
+                    whereArgs.add("1");
+                    break;
+
+                case GlobalConstants.SECTION_UPCOMING:
+                    where += " AND "+MediaItem.COLUMN_RELEASE_DATE+" > ?";
+                    whereArgs.add(String.valueOf(Calendar.getInstance().getTimeInMillis()));
+                    break;
+
+                default:
+                    for(ImportanceLevel il: ImportanceLevel.values())
+                    {
+                        if(section.getSectionId().equals(il.name()))
+                        {
+                            where += " AND "+MediaItem.COLUMN_IMPORTANCE_LEVEL+" = ? AND ("+MediaItem.COLUMN_RELEASE_DATE+" IS NULL OR "+MediaItem.COLUMN_RELEASE_DATE+" <= ?) AND "+MediaItem.COLUMN_DOING_NOW+" = ?";
+                            whereArgs.add(String.valueOf(il.getDbValue()));
+                            whereArgs.add(String.valueOf(Calendar.getInstance().getTimeInMillis()));
+                            whereArgs.add("0");
+                            break sectionSwitch;
+                        }
+                    }
+            }
+
+            String orderBy = MediaItem.COLUMN_ORDER_IN_SECTION+" ASC";
+            mediaItems = MediaItem.find(getModelClass(), where, whereArgs.toArray(new String[whereArgs.size()]), "", orderBy, null);
         }
         return mediaItems;
     }
@@ -455,6 +505,17 @@ public abstract class MediaItemsAbstractController
     {
         mediaItem.setCompletionDate(completionDate);
         mediaItem.setTimesCompleted(mediaItem.getTimesCompleted()+1);
+        saveMediaItem(mediaItem);
+    }
+
+    /**
+     * Updates a media item completion date
+     * @param mediaItem the media item
+     * @param completionDate the completion date
+     */
+    public void updateMediaItemCompletionDate(MediaItem mediaItem, Date completionDate)
+    {
+        mediaItem.setCompletionDate(completionDate);
         saveMediaItem(mediaItem);
     }
 
@@ -545,40 +606,40 @@ public abstract class MediaItemsAbstractController
      * Called to update the order field (for the database) AFTER "movedMediaItem" has been moved in the list
      * @param category the media item category
      * @param movedMediaItem the media items that has just moved
-     * @param previousMediaItemInImportanceLevel the media item before the moved one IN THE IMPORTANCE LEVEL SECTION (without considering upcoming or "doing now" media items)
-     * @param nextMediaItemInImportanceLevel the media item after the moved one IN THE IMPORTANCE LEVEL SECTION (without considering upcoming or "doing now" media items)
+     * @param previousMediaItemInSection the media item before the moved one in the section
+     * @param nextMediaItemInSection the media item after the moved one in the section
      */
-    public void setMediaItemOrderInImportanceLevelAfterMove(Category category, MediaItem movedMediaItem, MediaItem previousMediaItemInImportanceLevel, MediaItem nextMediaItemInImportanceLevel)
+    public void setOrderInSectionAfterMove(Category category, MediaItem movedMediaItem, MediaItem previousMediaItemInSection, MediaItem nextMediaItemInSection)
     {
         int newOrder;
 
         // If it's the only media item in the list...
-        if(previousMediaItemInImportanceLevel==null && nextMediaItemInImportanceLevel==null)
+        if(previousMediaItemInSection==null && nextMediaItemInSection==null)
         {
             // Order is 0
             newOrder = 0;
         }
 
-        // If the moved media item is the first in its importance level...
-        else if(previousMediaItemInImportanceLevel==null)
+        // If the moved media item is the first in its section...
+        else if(previousMediaItemInSection==null)
         {
             // The order is the next media item order - the default step
-            newOrder = nextMediaItemInImportanceLevel.getOrderInImportanceLevel() - ORDER_DEFAULT_STEP;
+            newOrder = nextMediaItemInSection.getOrderInSection() - ORDER_DEFAULT_STEP;
         }
 
-        // If the moved media item is the last in its importance level...
-        else if(nextMediaItemInImportanceLevel==null)
+        // If the moved media item is the last in its section...
+        else if(nextMediaItemInSection==null)
         {
             // The order is the previous media item order + the default step
-            newOrder = previousMediaItemInImportanceLevel.getOrderInImportanceLevel() + ORDER_DEFAULT_STEP;
+            newOrder = previousMediaItemInSection.getOrderInSection() + ORDER_DEFAULT_STEP;
         }
 
         // If it's in between (not first nor last)
         else
         {
-            // Get previous and next order levels
-            int prev = previousMediaItemInImportanceLevel.getOrderInImportanceLevel();
-            int next = nextMediaItemInImportanceLevel.getOrderInImportanceLevel();
+            // Get previous and next order values
+            int prev = previousMediaItemInSection.getOrderInSection();
+            int next = nextMediaItemInSection.getOrderInSection();
 
             // If there's space for the new media item...
             if(Math.abs(next-prev)>1)
@@ -591,25 +652,25 @@ public abstract class MediaItemsAbstractController
             else
             {
                 // Need to rebuild the order of the list
-                rebuildMediaItemsListOrderInImportanceLevel(category, movedMediaItem, previousMediaItemInImportanceLevel);
+                rebuildMediaItemsListOrderInSection(category, movedMediaItem, previousMediaItemInSection);
                 return;
             }
         }
 
         // Update order value
-        movedMediaItem.setOrderInImportanceLevel(newOrder);
+        movedMediaItem.setOrderInSection(newOrder);
     }
 
     /**
-     * Helper to completely rebuild the order of the "movedMediaItem" importance level section after a move operation that can't manage the current order values
+     * Helper to completely rebuild the order of the "movedMediaItem" section after a move operation that can't manage the current order values
      * @param category the media item category
      * @param movedMediaItem the media items that has just moved
-     * @param previousMediaItemInImportanceLevel the media item before the moved one IN THE IMPORTANCE LEVEL SECTION (without considering upcoming or "doing now" media items)
+     * @param previousMediaItemInSection the media item before the moved one in the section
      */
-    private void rebuildMediaItemsListOrderInImportanceLevel(Category category, MediaItem movedMediaItem, MediaItem previousMediaItemInImportanceLevel)
+    private void rebuildMediaItemsListOrderInSection(Category category, MediaItem movedMediaItem, MediaItem previousMediaItemInSection)
     {
-        // Get all media items in the importance level
-        List<MediaItem> mediaItems = getAllMediaItemsInImportanceLevel(category, movedMediaItem.getImportanceLevel());
+        // Get all media items in the section
+        List<MediaItem> mediaItems = getAllMediaItemsInSection(category, movedMediaItem.getSection());
 
         // Loop all media items in the interval and set an increasing order value
         int count = 0;
@@ -619,14 +680,14 @@ public abstract class MediaItemsAbstractController
             if(mediaItem.equals(movedMediaItem)) continue;
 
             // Set this media item value
-            mediaItem.setOrderInImportanceLevel(count);
+            mediaItem.setOrderInSection(count);
             saveMediaItem(mediaItem);
 
             // If it's the previous media item...
-            if(mediaItem.equals(previousMediaItemInImportanceLevel))
+            if(mediaItem.equals(previousMediaItemInSection))
             {
                 // Set moved media item value
-                movedMediaItem.setOrderInImportanceLevel(count + ORDER_DEFAULT_STEP);
+                movedMediaItem.setOrderInSection(count + ORDER_DEFAULT_STEP);
 
                 // Increase twice the count
                 count += ORDER_DEFAULT_STEP;
@@ -638,32 +699,32 @@ public abstract class MediaItemsAbstractController
     }
 
     /**
-     * Called BEFORE inserting a new media item to compute its order value in its importance level
+     * Called BEFORE inserting a new media item to compute its order value in its section
      * @param category the media item category
-     * @param newMediaItem the media item to be inserted (must have a category and an importance level)
+     * @param newMediaItem the media item to be inserted
      */
-    public void setMediaItemOrderInImportanceLevelBeforeInserting(Category category, MediaItem newMediaItem)
+    public void setMediaItemOrderInSectionBeforeInserting(Category category, MediaItem newMediaItem)
     {
-        // Get last item in the importance level order
-        MediaItem last = getLastMediaItemInImportanceLevel(category, newMediaItem.getImportanceLevel());
+        // Get last item in the section
+        MediaItem last = getLastMediaItemInSection(category, newMediaItem.getSection());
 
         // The new order is that value + the default step (we add the media item at the end of the list)
-        int newOrder = last==null ? 0 : last.getOrderInImportanceLevel() + ORDER_DEFAULT_STEP;
+        int newOrder = last==null ? 0 : last.getOrderInSection() + ORDER_DEFAULT_STEP;
 
         // Set the order value
-        newMediaItem.setOrderInImportanceLevel(newOrder);
+        newMediaItem.setOrderInSection(newOrder);
     }
 
     /**
      * Called BEFORE changing a media item importance level
-     * NOTE: called e.g. when we submit a form, not when the media item is moved in the list: in that case call {@link MediaItemsAbstractController#setMediaItemOrderInImportanceLevelAfterMove(Category, MediaItem, MediaItem, MediaItem)}
+     * NOTE: called e.g. when we submit a form, not when the media item is moved in the list: in that case call {@link MediaItemsAbstractController#setOrderInSectionAfterMove(Category, MediaItem, MediaItem, MediaItem)}
      * @param category the media item category
      * @param updatedMediaItem the media item to be updated with a different importance level
      */
-    public void setMediaItemOrderInImportanceLevelBeforeUpdatingImportanceLevel(Category category, MediaItem updatedMediaItem)
+    public void setMediaItemOrderInSectionBeforeUpdatingImportanceLevel(Category category, MediaItem updatedMediaItem)
     {
         // Do the same as the above method
-        setMediaItemOrderInImportanceLevelBeforeInserting(category, updatedMediaItem);
+        setMediaItemOrderInSectionBeforeInserting(category, updatedMediaItem);
     }
 
 

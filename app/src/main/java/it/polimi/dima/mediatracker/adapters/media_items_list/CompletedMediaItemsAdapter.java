@@ -16,7 +16,7 @@ import it.polimi.dima.mediatracker.model.MediaItem;
 /**
  * Sectioned adapter for the completed media items list
  */
-public class CompletedMediaItemsAdapterWrapper extends SectionedAbstractAdapterWrapper
+public class CompletedMediaItemsAdapter extends MediaItemsAbstractAdapter
 {
     private Context context;
 
@@ -24,27 +24,26 @@ public class CompletedMediaItemsAdapterWrapper extends SectionedAbstractAdapterW
      * Constructor
      * @param mediaItemList the media items in the list
      * @param optionNameRedo the resource ID of the string for "I could redo this" option
-     * @param sectionNameCallback the callback to get the section for each media item
      */
-    public CompletedMediaItemsAdapterWrapper(List<MediaItem> mediaItemList, int optionNameRedo, SectionNameCallback sectionNameCallback)
+    public CompletedMediaItemsAdapter(List<MediaItem> mediaItemList, int optionNameRedo)
     {
-        CompletedSectionedAdapter adapter = new CompletedSectionedAdapter(mediaItemList, optionNameRedo, sectionNameCallback);
+        CompletedInternalAdapter adapter = new CompletedInternalAdapter(mediaItemList, optionNameRedo);
         super.setAdapterFromSubclass(adapter);
     }
 
     /**
-     * Private adapter
+     * {@inheritDoc}
      */
-    private class CompletedSectionedAdapter extends SectionedAbstractAdapter
+    private class CompletedInternalAdapter extends MediaItemsInternalAdapter
     {
         private int optionNameRedo;
 
         /**
          * {@inheritDoc}
          */
-        private CompletedSectionedAdapter(List<MediaItem> mediaItemList, int optionNameRedo, SectionNameCallback sectionNameCallback)
+        private CompletedInternalAdapter(List<MediaItem> mediaItemList, int optionNameRedo)
         {
-            super(mediaItemList, sectionNameCallback);
+            super(mediaItemList);
 
             this.optionNameRedo = optionNameRedo;
         }
@@ -53,7 +52,7 @@ public class CompletedMediaItemsAdapterWrapper extends SectionedAbstractAdapterW
          * {@inheritDoc}
          */
         @Override
-        protected RecyclerView.ViewHolder onCreateElementViewHolder(ViewGroup parent, int viewType)
+        protected RecyclerView.ViewHolder onCreateItemViewHolder(ViewGroup parent, int viewType)
         {
             // Get context
             context = parent.getContext();
@@ -68,11 +67,11 @@ public class CompletedMediaItemsAdapterWrapper extends SectionedAbstractAdapterW
          * {@inheritDoc}
          */
         @Override
-        protected void onBindElementViewHolder(RecyclerView.ViewHolder itemHolder, int actualItemPosition)
+        protected void onBindItemViewHolder(RecyclerView.ViewHolder itemHolder, int actualItemPosition)
         {
             // Get data
             CompletedElementViewHolder holder = (CompletedElementViewHolder) itemHolder;
-            MediaItem mediaItem = getMediaItemList().get(actualItemPosition);
+            MediaItem mediaItem = getItemsList().get(actualItemPosition);
 
             // Options button
             setupOptionsButton(context, holder.optionsButton, actualItemPosition, 0, 0, optionNameRedo);

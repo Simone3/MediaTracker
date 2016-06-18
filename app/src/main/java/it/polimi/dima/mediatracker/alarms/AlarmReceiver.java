@@ -21,27 +21,32 @@ public class AlarmReceiver extends BroadcastReceiver
         // Get wakelock (need to keep device awake)
         PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, this.getClass().getSimpleName());
-        wakeLock.acquire();
-
-        // If we have an action...
-        if(intent.getAction()!=null)
+        try
         {
-            // If the device just restarted...
-            if(intent.getAction().equals("android.intent.action.BOOT_COMPLETED"))
-            {
-                // Start all alarms
-                AlarmScheduler.getInstance(context).startAllAlarms();
-            }
+            wakeLock.acquire();
 
-            // If it's the new releases alarm...
-            else if(intent.getAction().equals(AlarmScheduler.NEW_RELEASES_NOTIFICATIONS_ALARM_ACTION))
+            // If we have an action...
+            if(intent.getAction()!=null)
             {
-                // Send notifications if needed
-                NotificationsManager.getInstance(context).sendNewReleasesNotifications();
+                // If the device just restarted...
+                if(intent.getAction().equals("android.intent.action.BOOT_COMPLETED"))
+                {
+                    // Start all alarms
+                    AlarmScheduler.getInstance(context).startAllAlarms();
+                }
+
+                // If it's the new releases alarm...
+                else if(intent.getAction().equals(AlarmScheduler.NEW_RELEASES_NOTIFICATIONS_ALARM_ACTION))
+                {
+                    // Send notifications if needed
+                    NotificationsManager.getInstance(context).sendNewReleasesNotifications();
+                }
             }
         }
-
-        // Release wakelock
-        wakeLock.release();
+        finally
+        {
+            // Release wakelock
+            wakeLock.release();
+        }
     }
 }
