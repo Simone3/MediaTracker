@@ -21,7 +21,7 @@ import retrofit2.Retrofit;
  */
 public class BookService extends MediaItemService
 {
-    private Context context;
+    private Context appContext;
 
     private static BookService instance;
 
@@ -34,7 +34,7 @@ public class BookService extends MediaItemService
     private BookService(Context context)
     {
         super();
-        this.context = context;
+        this.appContext = context.getApplicationContext();
     }
 
     /**

@@ -51,37 +51,35 @@ public class DatabaseManager
     private final static String MEDIA_ITEMS_FIELD_NAME = "MEDIA_ITEMS";
     private final static String ROOT_FIELD_NAME = "CATEGORIES";
 
-    private Context context;
-
     private static DatabaseManager instance;
 
     /**
      * Private constructor
-     * @param context the context
      */
-    private DatabaseManager(Context context)
+    private DatabaseManager()
     {
-        this.context = context;
+
     }
 
     /**
      * Singleton pattern
      */
-    public static synchronized DatabaseManager getInstance(Context context)
+    public static synchronized DatabaseManager getInstance()
     {
-        if(instance==null) instance = new DatabaseManager(context);
+        if(instance==null) instance = new DatabaseManager();
         return instance;
     }
 
     /**
      * Function to export the application database to a JSON file. The method creates the JSON file and then
      * opens a send intent to allow the user to save the file somewhere
+     * @param context the context
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    public void exportDatabase()
+    public void exportDatabase(Context context)
     {
         // Get database
-        SQLiteDatabase db = (new DBHelper(context, getDatabaseName(), getDatabaseVersion())).getWritableDatabase();
+        SQLiteDatabase db = (new DBHelper(context, getDatabaseName(context), getDatabaseVersion(context))).getWritableDatabase();
 
         // Get/create directory in the internal storage (setup for sharing with the file provider)
         File directory = new File(context.getFilesDir(), EXPORT_FILE_DIR);
@@ -107,27 +105,29 @@ public class DatabaseManager
 
     /**
      * Function to import the application database from a JSON file
+     * @param context the context
      * @param fileUri the URL of the file
      * @throws DBImportValidationException if something went wrong with the import
      * @throws IOException if the file cannot be accessed
      */
-    public void importDatabase(Uri fileUri) throws DBImportValidationException, IOException, JSONException
+    public void importDatabase(Context context, Uri fileUri) throws DBImportValidationException, IOException, JSONException
     {
         // Get database
-        SQLiteDatabase db = (new DBHelper(context, getDatabaseName(), getDatabaseVersion())).getWritableDatabase();
+        SQLiteDatabase db = (new DBHelper(context, getDatabaseName(context), getDatabaseVersion(context))).getWritableDatabase();
 
         // Get JSON object from the file
         JSONObject databaseObject = StorageManager.getJsonObjectFromUri(context, fileUri);
 
         // Insert values from the file
-        jsonToDb(db, databaseObject);
+        jsonToDb(context, db, databaseObject);
     }
 
     /**
      * Getter
+     * @param context the context
      * @return the database name (retrieved from the Sugar ORM manifest metadata)
      */
-    private String getDatabaseName()
+    private String getDatabaseName(Context context)
     {
         try
         {
@@ -144,9 +144,10 @@ public class DatabaseManager
 
     /**
      * Getter
+     * @param context the context
      * @return the database version (retrieved from the Sugar ORM manifest metadata)
      */
-    private int getDatabaseVersion()
+    private int getDatabaseVersion(Context context)
     {
         try
         {
@@ -277,12 +278,13 @@ public class DatabaseManager
 
     /**
      * Deletes current database content and inserts all rows represented in the JSON object
+     * @param context the context
      * @param db the database
      * @param databaseObject the JSON object
      * @throws DBImportValidationException if something went wrong with the import
      * @throws JSONException if the JSON file has a wrong structure
      */
-    private void jsonToDb(SQLiteDatabase db, JSONObject databaseObject) throws DBImportValidationException, JSONException
+    private void jsonToDb(Context context, SQLiteDatabase db, JSONObject databaseObject) throws DBImportValidationException, JSONException
     {
         // Variables used in the function
         JSONObject rowObject;

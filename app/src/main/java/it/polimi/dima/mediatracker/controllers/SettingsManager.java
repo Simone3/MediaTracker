@@ -20,8 +20,7 @@ public class SettingsManager
 
     private static SettingsManager instance;
     private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
-    private Context context;
+    private Context appContext;
 
     /**
      * Private constructor
@@ -30,8 +29,7 @@ public class SettingsManager
     private SettingsManager(Context context)
     {
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        this.editor = this.sharedPreferences.edit();
-        this.context = context;
+        this.appContext = context.getApplicationContext();
     }
 
     /**
@@ -54,7 +52,7 @@ public class SettingsManager
      */
     public boolean isFirstRun()
     {
-        return sharedPreferences.getBoolean(context.getString(R.string.key_first_run), true);
+        return sharedPreferences.getBoolean(appContext.getString(R.string.key_first_run), true);
     }
 
     /**
@@ -63,7 +61,7 @@ public class SettingsManager
      */
     public int getNewReleasesNotificationHour()
     {
-        return sharedPreferences.getInt(context.getString(R.string.key_new_releases_notification_hour), DEFAULT_NEW_RELEASES_NOTIFICATION_HOUR);
+        return sharedPreferences.getInt(appContext.getString(R.string.key_new_releases_notification_hour), DEFAULT_NEW_RELEASES_NOTIFICATION_HOUR);
     }
 
     /**
@@ -72,7 +70,7 @@ public class SettingsManager
      */
     public int getNewReleasesNotificationMinutes()
     {
-        return sharedPreferences.getInt(context.getString(R.string.key_new_releases_notification_minutes), DEFAULT_NEW_RELEASES_NOTIFICATION_MINUTES);
+        return sharedPreferences.getInt(appContext.getString(R.string.key_new_releases_notification_minutes), DEFAULT_NEW_RELEASES_NOTIFICATION_MINUTES);
     }
 
     /**
@@ -81,7 +79,7 @@ public class SettingsManager
      */
     public boolean areNewReleasesNotificationsActive()
     {
-        return sharedPreferences.getBoolean(context.getString(R.string.key_receive_new_releases_notifications), DEFAULT_RECEIVE_NOTIFICATIONS);
+        return sharedPreferences.getBoolean(appContext.getString(R.string.key_receive_new_releases_notifications), DEFAULT_RECEIVE_NOTIFICATIONS);
     }
 
     /**
@@ -90,7 +88,7 @@ public class SettingsManager
      */
     private boolean getNotificationsVibrate()
     {
-        return sharedPreferences.getBoolean(context.getString(R.string.key_notifications_vibrate), DEFAULT_NOTIFICATIONS_VIBRATE);
+        return sharedPreferences.getBoolean(appContext.getString(R.string.key_notifications_vibrate), DEFAULT_NOTIFICATIONS_VIBRATE);
     }
 
     /**
@@ -116,7 +114,9 @@ public class SettingsManager
      */
     public Uri getNotificationsSound()
     {
-        return Uri.parse(sharedPreferences.getString(context.getString(R.string.key_notifications_sound), DEFAULT_NOTIFICATIONS_SOUND));
+        String uriString = sharedPreferences.getString(appContext.getString(R.string.key_notifications_sound), DEFAULT_NOTIFICATIONS_SOUND);
+        if(uriString==null) return null;
+        return Uri.parse(uriString);
     }
 
 
@@ -130,8 +130,9 @@ public class SettingsManager
      */
     public void setFirstRun(boolean isFirstRun)
     {
-        editor.putBoolean(context.getString(R.string.key_first_run), isFirstRun);
-        editor.commit();
+        SharedPreferences.Editor editor = this.sharedPreferences.edit();
+        editor.putBoolean(appContext.getString(R.string.key_first_run), isFirstRun);
+        editor.apply();
     }
 
     /**
@@ -140,8 +141,9 @@ public class SettingsManager
      */
     public void setNewReleasesNotificationHour(int hour)
     {
-        editor.putInt(context.getString(R.string.key_new_releases_notification_hour), hour);
-        editor.commit();
+        SharedPreferences.Editor editor = this.sharedPreferences.edit();
+        editor.putInt(appContext.getString(R.string.key_new_releases_notification_hour), hour);
+        editor.apply();
     }
 
     /**
@@ -150,7 +152,8 @@ public class SettingsManager
      */
     public void setNewReleasesNotificationMinutes(int minutes)
     {
-        editor.putInt(context.getString(R.string.key_new_releases_notification_minutes), minutes);
-        editor.commit();
+        SharedPreferences.Editor editor = this.sharedPreferences.edit();
+        editor.putInt(appContext.getString(R.string.key_new_releases_notification_minutes), minutes);
+        editor.apply();
     }
 }

@@ -20,7 +20,6 @@ import it.polimi.dima.mediatracker.utils.Utils;
  */
 public class NotificationsManager
 {
-    private Context context;
     private NotificationManager notificationManager;
     private SettingsManager settingsManager;
 
@@ -32,7 +31,6 @@ public class NotificationsManager
      */
     private NotificationsManager(Context context)
     {
-        this.context = context;
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         settingsManager = SettingsManager.getInstance(context);
     }
@@ -48,8 +46,9 @@ public class NotificationsManager
 
     /**
      * Queries the database for media items released today and, if any, sends a notification for each media type
+     * @param context the context
      */
-    public void sendNewReleasesNotifications()
+    public void sendNewReleasesNotifications(Context context)
     {
         Category category;
         List<MediaItem> releasedToday;
@@ -90,13 +89,20 @@ public class NotificationsManager
                 notificationClickPendingIntent = PendingIntent.getActivity(context, category.getId().intValue(), notificationClickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 // Send notification
-                sendNotification(category.getId().intValue(), category.getMediaType().getIcon(), category.getName(), content, notificationClickPendingIntent, Notification.PRIORITY_DEFAULT);
+                sendNotification(context,
+                        category.getId().intValue(),
+                        category.getMediaType().getIcon(),
+                        category.getName(),
+                        content,
+                        notificationClickPendingIntent,
+                        Notification.PRIORITY_DEFAULT);
             }
         }
     }
 
     /**
      * Helper to send a notification
+     * @param context the context
      * @param notificationID the ID
      * @param smallIcon the icon
      * @param title the title
@@ -104,7 +110,7 @@ public class NotificationsManager
      * @param notificationClickIntent the click intent
      * @param priority the priority
      */
-    private void sendNotification(int notificationID, int smallIcon, String title, String content, PendingIntent notificationClickIntent, int priority)
+    private void sendNotification(Context context, int notificationID, int smallIcon, String title, String content, PendingIntent notificationClickIntent, int priority)
     {
         // Builder
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)

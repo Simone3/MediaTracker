@@ -62,7 +62,7 @@ public class SettingsActivity extends AppCompatActivity
                         {
                             try
                             {
-                                DatabaseManager.getInstance(SettingsActivity.this).importDatabase(data);
+                                DatabaseManager.getInstance().importDatabase(SettingsActivity.this, data);
                                 Toast.makeText(getApplicationContext(), R.string.import_database_success, Toast.LENGTH_SHORT).show();
                             }
                             catch(JSONException e)
@@ -221,7 +221,7 @@ public class SettingsActivity extends AppCompatActivity
                 public boolean onPreferenceClick(final Preference preference)
                 {
                     // Call the database manager
-                    DatabaseManager.getInstance(getActivity()).exportDatabase();
+                    DatabaseManager.getInstance().exportDatabase(getActivity());
                     return true;
                 }
             });

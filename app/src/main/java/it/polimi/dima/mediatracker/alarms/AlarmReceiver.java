@@ -39,7 +39,7 @@ public class AlarmReceiver extends BroadcastReceiver
                 else if(intent.getAction().equals(AlarmScheduler.NEW_RELEASES_NOTIFICATIONS_ALARM_ACTION))
                 {
                     // Send notifications if needed
-                    NotificationsManager.getInstance(context).sendNewReleasesNotifications();
+                    NotificationsManager.getInstance(context).sendNewReleasesNotifications(context);
                 }
             }
         }

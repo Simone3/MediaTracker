@@ -25,7 +25,7 @@ import retrofit2.Retrofit;
  */
 public class TVShowService extends MediaItemService
 {
-    private Context context;
+    private Context appContext;
 
     private static TVShowService instance;
 
@@ -38,7 +38,7 @@ public class TVShowService extends MediaItemService
     private TVShowService(Context context)
     {
         super();
-        this.context = context;
+        this.appContext = context.getApplicationContext();
     }
 
     /**
@@ -74,7 +74,7 @@ public class TVShowService extends MediaItemService
     @Override
     public void searchMediaItems(String query, final MediaItemSearchCallback mediaItemSearchCallback)
     {
-        restInterface.searchTVShows(query, context.getString(R.string.themoviedb_api_key)).enqueue(new Callback<TVShowSearchJSON>()
+        restInterface.searchTVShows(query, appContext.getString(R.string.themoviedb_api_key)).enqueue(new Callback<TVShowSearchJSON>()
         {
             @Override
             public void onResponse(Call<TVShowSearchJSON> call, Response<TVShowSearchJSON> response)
@@ -105,7 +105,7 @@ public class TVShowService extends MediaItemService
     @Override
     public void getMediaItemInfo(final String externalServiceId, final MediaItemInfoCallback mediaItemInfoCallback)
     {
-        restInterface.getTVShowInfo(externalServiceId, context.getString(R.string.themoviedb_api_key)).enqueue(new Callback<TVShowJSON>()
+        restInterface.getTVShowInfo(externalServiceId, appContext.getString(R.string.themoviedb_api_key)).enqueue(new Callback<TVShowJSON>()
         {
             @Override
             public void onResponse(Call<TVShowJSON> call, Response<TVShowJSON> response)
@@ -118,7 +118,7 @@ public class TVShowService extends MediaItemService
                     // If it's in production, other query to get the next episode
                     if(tvShow.isInProduction() && tvShow.getSeasonsNumber()>0)
                     {
-                        restInterface.getTVShowNextEpisodeDate(externalServiceId, tvShow.getSeasonsNumber(), context.getString(R.string.themoviedb_api_key)).enqueue(new Callback<TVShowSeasonJSON>()
+                        restInterface.getTVShowNextEpisodeDate(externalServiceId, tvShow.getSeasonsNumber(), appContext.getString(R.string.themoviedb_api_key)).enqueue(new Callback<TVShowSeasonJSON>()
                         {
                             @Override
                             public void onResponse(Call<TVShowSeasonJSON> call, Response<TVShowSeasonJSON> response)

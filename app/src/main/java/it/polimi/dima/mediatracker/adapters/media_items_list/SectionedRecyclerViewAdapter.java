@@ -414,7 +414,7 @@ public abstract class SectionedRecyclerViewAdapter<T extends Sectioned>
                     currentLastSection = newItems.get(i).getSection();
 
                     // If needed, add the section to the elements list
-                    if(i == 0 || !currentLastSection.equals(previousItemSection))
+                    if(previousItemSection==null || !currentLastSection.equals(previousItemSection))
                     {
                         previousItemSection = currentLastSection;
                         elements.add(new ListElement(currentLastSection));

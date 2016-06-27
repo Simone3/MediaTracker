@@ -12,9 +12,7 @@ import it.polimi.dima.mediatracker.controllers.SettingsManager;
 import it.polimi.dima.mediatracker.utils.GlobalConstants;
 
 /**
- * Manages the creation of the application's alarms:
- * - repeating midnight alarm that sets up the day's random alarms for the games
- * - game alarm that makes the phone send a game to the wearable
+ * Manages the creation of the application's alarms, e.g. for the new releases notifications
  */
 public class AlarmScheduler
 {
@@ -22,7 +20,7 @@ public class AlarmScheduler
     private final static String NEW_RELEASES_NOTIFICATIONS_ALARM_NAME = "NEW_RELEASES_NOTIFICATIONS_ALARM_NAME";
 
     private static AlarmScheduler instance = null;
-    private Context context;
+    private Context appContext;
     private SettingsManager settingsManager;
 
     /**
@@ -31,7 +29,7 @@ public class AlarmScheduler
      */
     private AlarmScheduler(Context context)
     {
-        this.context = context;
+        this.appContext = context.getApplicationContext();
         settingsManager = SettingsManager.getInstance(context);
     }
 
@@ -54,7 +52,7 @@ public class AlarmScheduler
     private void scheduleSingleAlarm(Date date, String action, String uniqueName)
     {
         // Get alarm manager
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager) appContext.getSystemService(Context.ALARM_SERVICE);
 
         // Build intent for the AlarmReceiver
         PendingIntent pendingIntent = buildPendingIntentForAlarms(action, uniqueName);
@@ -73,7 +71,7 @@ public class AlarmScheduler
     private void scheduleRepeatingAlarm(Date date, long intervalMilliseconds, String action, String uniqueName)
     {
         // Get alarm manager
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager) appContext.getSystemService(Context.ALARM_SERVICE);
 
         // Build intent for the AlarmReceiver
         PendingIntent pendingIntent = buildPendingIntentForAlarms(action, uniqueName);
@@ -90,7 +88,7 @@ public class AlarmScheduler
     private void removeAlarm(String action, String uniqueName)
     {
         // Get alarm manager
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager) appContext.getSystemService(Context.ALARM_SERVICE);
 
         // Build intent for the AlarmReceiver
         PendingIntent pendingIntent = buildPendingIntentForAlarms(action, uniqueName);
@@ -107,10 +105,10 @@ public class AlarmScheduler
      */
     private PendingIntent buildPendingIntentForAlarms(String action, String uniqueName)
     {
-        Intent intent = new Intent(context, AlarmReceiver.class);
+        Intent intent = new Intent(appContext, AlarmReceiver.class);
         intent.setType(uniqueName);
         intent.setAction(action);
-        return PendingIntent.getBroadcast(context, 0, intent, 0);
+        return PendingIntent.getBroadcast(appContext, 0, intent, 0);
     }
 
     /**
@@ -119,7 +117,7 @@ public class AlarmScheduler
     public void startNewReleasesAlarm()
     {
         // Get time for the notifications
-        SettingsManager settingsManager = SettingsManager.getInstance(context);
+        SettingsManager settingsManager = SettingsManager.getInstance(appContext);
         int hour = settingsManager.getNewReleasesNotificationHour();
         int minutes = settingsManager.getNewReleasesNotificationMinutes();
 

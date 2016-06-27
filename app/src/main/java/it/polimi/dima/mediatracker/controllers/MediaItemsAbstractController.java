@@ -312,7 +312,7 @@ public abstract class MediaItemsAbstractController
      * @param category the media item category
      * @param idDifferentFromIfPossible if possible, the retrieved media item has a different ID from this one ("if possible" means that if there's only one item that matches in the whole database, it is returned anyway). May be null
      * @param genresContains genres contains this value. May be null
-     * @param completedYearsAgo Completion date is at least the given amount of years ago. May be 0
+     * @param completedYearsAgo completion date is at least the given amount of years ago. May be 0
      * @param minDuration min duration (e.g. pages number, runtime,...). May be 0
      * @param maxDuration max duration (e.g. pages number, runtime,...). May be 0
      * @return a random media item or null if no match
@@ -329,7 +329,9 @@ public abstract class MediaItemsAbstractController
         if(completedYearsAgo>0)
         {
             whereAndTerms.add(MediaItem.COLUMN_COMPLETION_DATE+" < ?");
-            whereArgs.add(String.valueOf((long) completedYearsAgo* GlobalConstants.MILLISECONDS_IN_YEAR));
+            long now = Calendar.getInstance().getTimeInMillis();
+            long yearsAgoMs = (long) completedYearsAgo*GlobalConstants.MILLISECONDS_IN_YEAR;
+            whereArgs.add(String.valueOf(now-yearsAgoMs));
         }
 
         // Call helper method

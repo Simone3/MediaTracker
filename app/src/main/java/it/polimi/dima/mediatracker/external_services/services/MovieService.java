@@ -22,7 +22,7 @@ import retrofit2.Retrofit;
  */
 public class MovieService extends MediaItemService
 {
-    private Context context;
+    private Context appContext;
 
     private static MovieService instance;
 
@@ -35,7 +35,7 @@ public class MovieService extends MediaItemService
     private MovieService(Context context)
     {
         super();
-        this.context = context;
+        this.appContext = context.getApplicationContext();
     }
 
     /**
@@ -71,7 +71,7 @@ public class MovieService extends MediaItemService
     @Override
     public void searchMediaItems(String query, final MediaItemSearchCallback mediaItemSearchCallback)
     {
-        restInterface.searchMovies(query, context.getString(R.string.themoviedb_api_key)).enqueue(new Callback<MovieSearchJSON>()
+        restInterface.searchMovies(query, appContext.getString(R.string.themoviedb_api_key)).enqueue(new Callback<MovieSearchJSON>()
         {
             @Override
             public void onResponse(Call<MovieSearchJSON> call, Response<MovieSearchJSON> response)
@@ -102,7 +102,7 @@ public class MovieService extends MediaItemService
     @Override
     public void getMediaItemInfo(String externalServiceId, final MediaItemInfoCallback mediaItemInfoCallback)
     {
-        restInterface.getMovieInfo(externalServiceId, context.getString(R.string.themoviedb_api_key)).enqueue(new Callback<MovieJSON>()
+        restInterface.getMovieInfo(externalServiceId, appContext.getString(R.string.themoviedb_api_key)).enqueue(new Callback<MovieJSON>()
         {
             @Override
             public void onResponse(Call<MovieJSON> call, Response<MovieJSON> response)

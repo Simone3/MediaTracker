@@ -22,7 +22,7 @@ import retrofit2.Retrofit;
  */
 public class VideogameService extends MediaItemService
 {
-    private Context context;
+    private Context appContext;
 
     private static VideogameService instance;
 
@@ -35,7 +35,7 @@ public class VideogameService extends MediaItemService
     private VideogameService(Context context)
     {
         super();
-        this.context = context;
+        this.appContext = context.getApplicationContext();
     }
 
     /**
@@ -71,7 +71,7 @@ public class VideogameService extends MediaItemService
     @Override
     public void searchMediaItems(String query, final MediaItemSearchCallback mediaItemSearchCallback)
     {
-        restInterface.searchVideogames(query, MAX_SEARCH_RESULTS, context.getString(R.string.giantbomb_api_key)).enqueue(new Callback<VideogameSearchJSON>()
+        restInterface.searchVideogames(query, MAX_SEARCH_RESULTS, appContext.getString(R.string.giantbomb_api_key)).enqueue(new Callback<VideogameSearchJSON>()
         {
             @Override
             public void onResponse(Call<VideogameSearchJSON> call, Response<VideogameSearchJSON> response)
@@ -102,7 +102,7 @@ public class VideogameService extends MediaItemService
     @Override
     public void getMediaItemInfo(String externalServiceId, final MediaItemInfoCallback mediaItemInfoCallback)
     {
-        restInterface.getVideogameInfo(externalServiceId, context.getString(R.string.giantbomb_api_key)).enqueue(new Callback<VideogameJSON>()
+        restInterface.getVideogameInfo(externalServiceId, appContext.getString(R.string.giantbomb_api_key)).enqueue(new Callback<VideogameJSON>()
         {
             @Override
             public void onResponse(Call<VideogameJSON> call, Response<VideogameJSON> response)
