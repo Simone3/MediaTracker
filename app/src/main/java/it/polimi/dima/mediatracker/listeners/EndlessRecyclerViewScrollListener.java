@@ -19,6 +19,7 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
 
     /**
      * Constructor
+     *
      * @param layoutManager the layout manager
      */
     public EndlessRecyclerViewScrollListener(LinearLayoutManager layoutManager)
@@ -28,39 +29,42 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
 
     /**
      * Constructor
+     *
      * @param layoutManager the layout manager
      */
     public EndlessRecyclerViewScrollListener(GridLayoutManager layoutManager)
     {
         this.layoutManager = layoutManager;
-        visibleThreshold = visibleThreshold * layoutManager.getSpanCount();
+        visibleThreshold = visibleThreshold*layoutManager.getSpanCount();
     }
 
     /**
      * Constructor
+     *
      * @param layoutManager the layout manager
      */
     public EndlessRecyclerViewScrollListener(StaggeredGridLayoutManager layoutManager)
     {
         this.layoutManager = layoutManager;
-        visibleThreshold = visibleThreshold * layoutManager.getSpanCount();
+        visibleThreshold = visibleThreshold*layoutManager.getSpanCount();
     }
 
     /**
      * Used for StaggeredGridView
+     *
      * @param lastVisibleItemPositions the visible positions
      * @return the last visible position
      */
     private int getLastVisibleItem(int[] lastVisibleItemPositions)
     {
         int maxSize = 0;
-        for (int i = 0; i < lastVisibleItemPositions.length; i++)
+        for(int i=0; i<lastVisibleItemPositions.length; i++)
         {
-            if (i == 0)
+            if(i==0)
             {
                 maxSize = lastVisibleItemPositions[i];
             }
-            else if (lastVisibleItemPositions[i] > maxSize)
+            else if(lastVisibleItemPositions[i]>maxSize)
             {
                 maxSize = lastVisibleItemPositions[i];
             }
@@ -82,14 +86,14 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
             int[] lastVisibleItemPositions = ((StaggeredGridLayoutManager) layoutManager).findLastVisibleItemPositions(null);
             lastVisibleItemPosition = getLastVisibleItem(lastVisibleItemPositions);
         }
-        else if (layoutManager instanceof LinearLayoutManager)
+        else if(layoutManager instanceof LinearLayoutManager)
         {
             lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
             if(lastVisibleItemPosition==RecyclerView.NO_POSITION) return;
         }
 
         // If we have LESS items than before, assume the list is invalidated and reset back to initial state
-        if (totalItemCount < previousTotalItemCount)
+        if(totalItemCount<previousTotalItemCount)
         {
             this.currentPage = 0;
             this.previousTotalItemCount = totalItemCount;
@@ -97,14 +101,15 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
         }
 
         // If it’s still loading, we check to see if the dataset count has changed, if so we conclude it has finished loading and update the current page number and total item count
-        if(loading && (totalItemCount > previousTotalItemCount))
+        if(loading && (totalItemCount>previousTotalItemCount))
         {
             loading = false;
             previousTotalItemCount = totalItemCount;
         }
 
         // If it isn’t currently loading, we check to see if we have breached the visibleThreshold and need to reload more data.
-        if(!loading && (lastVisibleItemPosition + visibleThreshold) > totalItemCount)
+        // TODO the "view.isComputingLayout()" prevents an IllegalStateException but when going back to the list from the form it prevents loading of the elements that should be in view
+        if(!loading && !view.isComputingLayout() && (lastVisibleItemPosition+visibleThreshold)>totalItemCount)
         {
             currentPage++;
             onLoadMore(currentPage, totalItemCount);
@@ -114,7 +119,8 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
 
     /**
      * What to do when a new page needs to be loaded
-     * @param page the page to load
+     *
+     * @param page            the page to load
      * @param totalItemsCount the current items number
      */
     public abstract void onLoadMore(int page, int totalItemsCount);

@@ -9,9 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Calendar;
 import java.util.List;
 
 import it.polimi.dima.mediatracker.R;
+import it.polimi.dima.mediatracker.inputs.DatePickerInput;
 import it.polimi.dima.mediatracker.model.MediaItem;
 import it.polimi.dima.mediatracker.utils.Utils;
 
@@ -137,7 +139,16 @@ public class TrackedMediaItemsAdapter extends MediaItemsAbstractAdapter
             {
                 if(mediaItem.getReleaseDate()!=null)
                 {
-                    holder.description.setText(context.getString(R.string.will_be_available_on, DateFormat.getDateFormat(context).format(mediaItem.getReleaseDate())));
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(mediaItem.getReleaseDate());
+                    if(cal.get(Calendar.YEAR)<DatePickerInput.FUTURE_YEAR)
+                    {
+                        holder.description.setText(context.getString(R.string.will_be_available_on, DateFormat.getDateFormat(context).format(mediaItem.getReleaseDate())));
+                    }
+                    else
+                    {
+                        holder.description.setText(context.getString(R.string.will_be_available_future));
+                    }
                     holder.description.setVisibility(View.VISIBLE);
                 }
                 else

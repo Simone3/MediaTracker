@@ -118,6 +118,8 @@
     <string name="form_image">Representative image</string>
     <string name="form_reload">Reload information from the Internet</string>
     <string name="form_reload_alert_content">This will reload the media item information from the internet, overwriting any change made to the linked fields. Are you sure?</string>
+    <string name="future_button">Future</string>
+    <string name="future_value">In The Future</string>
 
     <!-- MOVIES FORM -->
     <string name="form_title_director">Director</string>
@@ -160,6 +162,7 @@
     <string name="completed_on_single">Completed on %1$s</string>
     <string name="completed_on_multiple">Completed %1$d times, last on %2$s</string>
     <string name="will_be_available_on">Will be available on %1$s</string>
+    <string name="will_be_available_future">Will be available in the future</string>
     <string name="will_be_available_on_unknown">Upcoming</string>
     <string name="reorder">Reorder</string>
     <string name="list_empty">No media items</string>

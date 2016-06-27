@@ -2,6 +2,7 @@ package it.polimi.dima.mediatracker.inputs;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
@@ -12,12 +13,16 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import it.polimi.dima.mediatracker.R;
+
 /**
  * Form input for a {@link DatePickerDialog} created on a {@link EditText} click
  * @param <T> the model object
  */
 public class DatePickerInput<T> extends AbstractInput<T>
 {
+    public final static int FUTURE_YEAR = 9999;
+
     private DatePickerDialog datePickerDialog;
     private EditText button;
 
@@ -48,18 +53,19 @@ public class DatePickerInput<T> extends AbstractInput<T>
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
             {
-                calendar.set(year, monthOfYear, dayOfMonth);
-                isUnknown = false;
-                setButtonText();
-
-                updateDependentInputsVisibility(true);
-
-                if(!areValueChangeListenersDisabled())
-                {
-                    setWasChangedByUser(true);
-                }
+                onDateSetHelper(year, monthOfYear, dayOfMonth);
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+        // Also add a "Future" button
+        datePickerDialog.setButton(DialogInterface.BUTTON_NEUTRAL, activity.getString(R.string.future_button), new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                onDateSetHelper(FUTURE_YEAR, 1, 1);
+            }
+        });
 
         // Show dialog on button click
         button = (EditText) view.findViewById(inputButtonId);
@@ -75,11 +81,29 @@ public class DatePickerInput<T> extends AbstractInput<T>
     }
 
     /**
+     * Helper to respond to a date change
+     */
+    private void onDateSetHelper(int year, int monthOfYear, int dayOfMonth)
+    {
+        calendar.set(year, monthOfYear, dayOfMonth);
+        isUnknown = false;
+        setButtonText();
+
+        updateDependentInputsVisibility(true);
+
+        if(!areValueChangeListenersDisabled())
+        {
+            setWasChangedByUser(true);
+        }
+    }
+
+    /**
      * Helper to set the button text equal to the selected date
      */
     private void setButtonText()
     {
         if(isUnknown) button.setText("");
+        else if(calendar.get(Calendar.YEAR)>=FUTURE_YEAR) button.setText(R.string.future_value);
         else button.setText(format.format(calendar.getTime()));
     }
 
@@ -98,7 +122,10 @@ public class DatePickerInput<T> extends AbstractInput<T>
         {
             isUnknown = false;
             calendar.setTime(date);
-            datePickerDialog.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+            if(calendar.get(Calendar.YEAR)<FUTURE_YEAR)
+            {
+                datePickerDialog.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+            }
             setButtonText();
         }
     }
