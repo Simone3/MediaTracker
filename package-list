@@ -1,0 +1,16 @@
+it.polimi.dima.mediatracker.activities
+it.polimi.dima.mediatracker.adapters
+it.polimi.dima.mediatracker.adapters.drawer
+it.polimi.dima.mediatracker.adapters.media_items_list
+it.polimi.dima.mediatracker.alarms
+it.polimi.dima.mediatracker.controllers
+it.polimi.dima.mediatracker.dialogs
+it.polimi.dima.mediatracker.external_services.model_json
+it.polimi.dima.mediatracker.external_services.rest_interfaces
+it.polimi.dima.mediatracker.external_services.services
+it.polimi.dima.mediatracker.fragments
+it.polimi.dima.mediatracker.inputs
+it.polimi.dima.mediatracker.layout
+it.polimi.dima.mediatracker.listeners
+it.polimi.dima.mediatracker.model
+it.polimi.dima.mediatracker.utils
