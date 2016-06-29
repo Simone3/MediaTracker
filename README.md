@@ -13,22 +13,12 @@ JavaDoc: https://simone3.github.io/MediaTracker/
 To make the external services (retrieve media item information from the internet) work, you should put your own API keys in \app\src\main\res\values\api_keys.xml
 
 ### Images
-<div class="imgs">
 
-	<div style="width: 100%;">
-		<img style="display: inline-block; width: 200px; padding: 5px;" src="http://simone3.github.io/MediaTracker/Screens/home.png">
-		<img style="display: inline-block; width: 200px; padding: 5px;" src="http://simone3.github.io/MediaTracker/Screens/list_phone.png">
-		<img style="display: inline-block; width: 200px; padding: 5px;" src="http://simone3.github.io/MediaTracker/Screens/list_phone_compl.png">
-	</div>
-	
-	<div style="width: 100%">
-		<img style="display: inline-block; width: 600px; padding: 5px;" src="http://simone3.github.io/MediaTracker/Screens/list_tablet.png">
-	</div>
-	
-	<div style="width: 100%">
-		<img style="display: inline-block; width: 200px; padding: 5px;" src="http://simone3.github.io/MediaTracker/Screens/form_autocom.png">
-		<img style="display: inline-block; width: 200px; padding: 5px;" src="http://simone3.github.io/MediaTracker/Screens/form.png">
-		<img style="display: inline-block; width: 200px; padding: 5px;" src="http://simone3.github.io/MediaTracker/Screens/sugg_phone.png">
-	</div>
-	
-</div>
+<img width="200" src="http://simone3.github.io/MediaTracker/Screens/home.png">
+<img width="200" src="http://simone3.github.io/MediaTracker/Screens/list_phone.png">
+<img width="200" src="http://simone3.github.io/MediaTracker/Screens/list_phone_compl.png">
+<img width="600" src="http://simone3.github.io/MediaTracker/Screens/list_tablet.png">
+<img width="200" src="http://simone3.github.io/MediaTracker/Screens/form_autocom.png">
+<img width="200" src="http://simone3.github.io/MediaTracker/Screens/form.png">
+<img width="200" src="http://simone3.github.io/MediaTracker/Screens/sugg_phone.png">
+<img width="600" src="http://simone3.github.io/MediaTracker/Screens/sugg_tablet.png">
