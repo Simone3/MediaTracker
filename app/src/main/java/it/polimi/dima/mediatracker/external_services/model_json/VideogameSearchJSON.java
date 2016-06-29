@@ -43,7 +43,7 @@ public class VideogameSearchJSON
         private MediaItemSearchResult convertToItemSearchResult()
         {
             int year = expectedReleaseYear==0 ? Utils.parseYearFromString(originalReleaseDate, "yyyy-MM-dd HH:mm:ss") : expectedReleaseYear;
-            return new MediaItemSearchResult(apiId, title, null, year==0 ? null : String.valueOf(year));
+            return new MediaItemSearchResult(apiId, title, null, year<=0 ? null : String.valueOf(year));
         }
     }
 

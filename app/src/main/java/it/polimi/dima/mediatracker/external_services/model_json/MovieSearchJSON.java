@@ -39,7 +39,7 @@ public class MovieSearchJSON
         private MediaItemSearchResult convertToItemSearchResult()
         {
             int year = Utils.parseYearFromString(releaseDate, "yyyy-MM-dd");
-            return new MediaItemSearchResult(apiId, title, null, year==0 ? null : String.valueOf(year));
+            return new MediaItemSearchResult(apiId, title, null, year<=0 ? null : String.valueOf(year));
         }
     }
 

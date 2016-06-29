@@ -2,6 +2,7 @@ package it.polimi.dima.mediatracker;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
@@ -106,7 +107,7 @@ public class ApplicationFlowUITest
         for(int i=0; i<=1; i++)
         {
             // Click on the home FAB
-            onView(withId(R.id.home_fab)).perform(click());
+            onView(ViewMatchers.withId(R.id.home_fab)).perform(click());
 
             // Check if we are in the form
             onView(withId(R.id.form_container)).check(matches(isDisplayed()));

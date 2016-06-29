@@ -39,7 +39,7 @@ public class TVShowSearchJSON
         private MediaItemSearchResult convertToItemSearchResult()
         {
             int year = firstAirDate==null ? 0 : Utils.parseYearFromString(firstAirDate, "yyyy-MM-dd");
-            return new MediaItemSearchResult(apiId, title, null, String.valueOf(year));
+            return new MediaItemSearchResult(apiId, title, null, year<=0 ? null : String.valueOf(year));
         }
     }
 

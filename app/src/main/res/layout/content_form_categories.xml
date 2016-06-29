@@ -16,6 +16,7 @@
     <EditText
         android:id="@+id/form_title_input"
         style="@style/FormTextInputOneLine"
+        android:textSize="@dimen/form_title_input_text_size"
         android:hint="@string/form_title_category_name"/>
 
     <LinearLayout

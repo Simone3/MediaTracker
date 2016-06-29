@@ -60,7 +60,7 @@ public class BookSearchJSON
                 year = Utils.parseYearFromString(volInfo.releaseDate, format);
             }
 
-            return new MediaItemSearchResult(apiId, volInfo.title, Utils.joinIfNotEmpty(", ", volInfo.authors), year==0 ? null : String.valueOf(year));
+            return new MediaItemSearchResult(apiId, volInfo.title, Utils.joinIfNotEmpty(", ", volInfo.authors), year<=0 ? null : String.valueOf(year));
         }
     }
 

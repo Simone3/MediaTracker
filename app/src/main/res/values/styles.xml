@@ -39,10 +39,6 @@
         <item name="android:inputType">number</item>
         <item name="measure_unit_text_color">@android:color/darker_gray</item>
     </style>
-    <style name="FormNumberInputLabel">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
     <style name="FormDialogButton" parent="AbstractInput">
         <item name="android:focusable">false</item>
         <item name="android:focusableInTouchMode">false</item>
@@ -66,10 +62,6 @@
         <item name="android:focusable">false</item>
         <item name="android:focusableInTouchMode">false</item>
         <item name="android:textSize">@dimen/form_input_text_size</item>
-    </style>
-    <style name="FormTextInputLabel">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
     </style>
 
     <!-- COLOR PICKER -->
