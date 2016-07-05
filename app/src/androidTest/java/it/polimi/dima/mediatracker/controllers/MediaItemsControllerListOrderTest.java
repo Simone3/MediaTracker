@@ -1,6 +1,8 @@
 package it.polimi.dima.mediatracker.controllers;
 
-import android.test.AndroidTestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +20,13 @@ import it.polimi.dima.mediatracker.model.Movie;
 import it.polimi.dima.mediatracker.test_utils.InstrumentationTestUtils;
 import it.polimi.dima.mediatracker.utils.Utils;
 
-public class MediaItemsAbstractControllerIntegrationTest extends AndroidTestCase
+import static junit.framework.Assert.assertTrue;
+
+/**
+ * Tests the media items controller (moved this list test in a separate class for readability,
+ * since it needs several helpers and fields)
+ */
+public class MediaItemsControllerListOrderTest
 {
     private final static int OPERATIONS = 3000;
 
@@ -38,17 +46,12 @@ public class MediaItemsAbstractControllerIntegrationTest extends AndroidTestCase
     private Date lastYear;
     ImportanceLevel[] importanceLevels;
 
-    public MediaItemsAbstractControllerIntegrationTest()
-    {
-        super();
-    }
-
-    @Override
-    protected void setUp() throws Exception
+    @Before
+    public void setUp()
     {
         // Create category
         categoriesController = CategoriesController.getInstance();
-        createdFakeCategory = new Category(getContext(), InstrumentationTestUtils.getRandomName(), R.color.colorPrimary, MediaType.MOVIES);
+        createdFakeCategory = new Category("colorPrimary", InstrumentationTestUtils.getRandomName(), R.color.colorPrimary, MediaType.MOVIES);
         categoriesController.saveCategory(createdFakeCategory);
 
         // Get media items controller
@@ -65,8 +68,8 @@ public class MediaItemsAbstractControllerIntegrationTest extends AndroidTestCase
         importanceLevels = ImportanceLevel.values();
     }
 
-    @Override
-    protected void tearDown() throws Exception
+    @After
+    public void tearDown()
     {
         // Remove category and all media items in it
         categoriesController.deleteCategory(createdFakeCategory);
@@ -75,6 +78,7 @@ public class MediaItemsAbstractControllerIntegrationTest extends AndroidTestCase
     /**
      * Tests the stored order in the media items list
      */
+    @Test
     public void testMediaItemsListOrder()
     {
         // Load first list
@@ -91,7 +95,7 @@ public class MediaItemsAbstractControllerIntegrationTest extends AndroidTestCase
             if(!initialized && mediaItems.size()>=INITIAL_ELEMENTS) initialized = true;
 
             // Create a new element if we have no items OR if we initializing OR if we fall in its probability
-            if( mediaItems.size()==0 || !initialized  || action>(100-ADD_PROBABILITY) )
+            if(mediaItems.size()==0 || !initialized  || action>(100-ADD_PROBABILITY) )
             {
                 System.out.println("########### adding ###########");
 
@@ -197,6 +201,9 @@ public class MediaItemsAbstractControllerIntegrationTest extends AndroidTestCase
             assertOrder();
         }
     }
+
+
+
 
 
 

@@ -226,17 +226,19 @@ public abstract class MediaItemsAbstractController
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
         String todayStart = String.valueOf(calendar.getTimeInMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 23);
         calendar.set(Calendar.MINUTE, 59);
         calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 999);
         String todayEnd = String.valueOf(calendar.getTimeInMillis());
 
         // Get media items
         List<MediaItem> mediaItems = null;
         if(category.getId()!=null)
         {
-            String where = MediaItem.COLUMN_CATEGORY+" = ? AND "+ MediaItem.COLUMN_RELEASE_DATE+" BETWEEN ? AND ?";
+            String where = MediaItem.COLUMN_CATEGORY+" = ? AND "+MediaItem.COLUMN_RELEASE_DATE+" BETWEEN ? AND ?";
             String[] whereArgs = new String[]{category.getId().toString(), todayStart, todayEnd};
             mediaItems = MediaItem.find(getModelClass(), where, whereArgs);
         }

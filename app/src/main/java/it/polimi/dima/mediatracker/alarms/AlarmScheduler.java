@@ -129,7 +129,7 @@ public class AlarmScheduler
         calendar.set(Calendar.SECOND, 0);
 
         // If it's already past, set it to tomorrow
-        if (now.after(calendar.getTime()))
+        if(now.after(calendar.getTime()))
         {
             calendar.add(Calendar.DATE, 1);
         }

@@ -738,6 +738,7 @@ public abstract class SectionedRecyclerViewAdapter<T extends Sectioned>
             }
 
             // Save list position
+            // TODO saving the variable here only works if developer uses the move touch helper. What if it moves just by calling moveItemAndNotify()
             lastMoveTargetListPosition = toListPosition;
 
             // For the WHOLE Drag&Drop action, save FIRST from position/section and CURRENT to position/section
