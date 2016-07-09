@@ -4,8 +4,6 @@ import java.util.List;
 
 import it.polimi.dima.mediatracker.model.MediaItem;
 import it.polimi.dima.mediatracker.model.MediaItemSearchResult;
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -22,15 +20,15 @@ public abstract class MediaItemService
      */
     MediaItemService()
     {
-        // TODO remove
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        // For logging
+        /*HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();*/
 
         // Build retrofit object
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getBaseUrl())
-                .client(client)
+                //.client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

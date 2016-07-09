@@ -70,6 +70,19 @@
                     android:scheme="file"
                     android:pathPattern=".*\\.json"/>
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="content"
+                    android:mimeType="*/*"
+                    android:pathPattern=".*\\.json"/>
+                <data
+                    android:scheme="content"
+                    android:mimeType="*/*"
+                    android:pathPattern=".*\\.JSON"/>
+            </intent-filter>
         </activity>
 
         <!-- RECEIVERS -->
@@ -93,7 +106,7 @@
         <!-- METADATA -->
         <meta-data android:name="DATABASE" android:value="media_tracker.db"/>
         <meta-data android:name="VERSION" android:value="6"/>
-        <meta-data android:name="QUERY_LOG" android:value="true"/>
+        <meta-data android:name="QUERY_LOG" android:value="false"/>
         <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="it.polimi.dima.mediatracker.model"/>
 
     </application>
